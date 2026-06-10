@@ -33,16 +33,18 @@ export function AppShell({ title, children }: { title?: string; children: ReactN
     .join("")
     .toUpperCase() ?? "?";
 
+  const companyLabel = useAuth().company?.name ?? settings.name;
+
   return (
     <div className="flex min-h-screen bg-background text-foreground">
-      <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar">
-        <div className="flex h-16 items-center gap-2 border-b border-sidebar-border px-5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar lg:flex">
+        <div className="flex h-16 shrink-0 items-center gap-2 border-b border-sidebar-border px-5">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-[oklch(0.4_0.2_290)] text-primary-foreground shadow shadow-primary/30">
             <Building2 className="h-5 w-5" />
           </div>
-          <div className="leading-tight">
-            <div className="text-sm font-semibold">{settings.name}</div>
-            <div className="text-xs text-muted-foreground">{t.appName}</div>
+          <div className="min-w-0 leading-tight">
+            <div className="truncate text-sm font-semibold">{t.appName}</div>
+            <div className="truncate text-xs text-muted-foreground">{companyLabel}</div>
           </div>
         </div>
         <div className="flex-1 overflow-y-auto">
