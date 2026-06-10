@@ -65,7 +65,7 @@ export function AppShell({ title, children }: { title?: string; children: ReactN
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <Building2 className="h-5 w-5" />
                 </div>
-                <div className="text-sm font-semibold">{settings.name}</div>
+                <div className="text-sm font-semibold">{companyLabel}</div>
               </div>
               <AppNav onNavigate={() => setOpen(false)} />
             </SheetContent>
