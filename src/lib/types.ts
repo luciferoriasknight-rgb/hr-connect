@@ -1,4 +1,17 @@
-export type Role = "admin" | "hr" | "manager" | "employee" | "candidate";
+export type Role = "super_admin" | "admin" | "hr" | "manager" | "employee" | "candidate";
+
+export interface Company {
+  id: string;
+  name: string;
+  slug: string;
+  inviteCode: string; // shared to let teammates join
+  industry?: string;
+  size?: "1-10" | "11-50" | "51-200" | "201-1000" | "1000+";
+  country?: string;
+  logo?: string;
+  plan: "free" | "pro" | "enterprise";
+  createdAt: string;
+}
 
 export interface User {
   id: string;
@@ -6,6 +19,7 @@ export interface User {
   password: string;
   fullName: string;
   role: Role;
+  companyId?: string; // super_admin & candidate may not belong to a company
   employeeId?: string;
   candidateId?: string;
   avatar?: string;
@@ -14,12 +28,14 @@ export interface User {
 
 export interface Department {
   id: string;
+  companyId?: string;
   name: string;
   managerId?: string;
 }
 
 export interface Employee {
   id: string;
+  companyId?: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -38,6 +54,7 @@ export interface Employee {
 
 export interface JobOffer {
   id: string;
+  companyId?: string;
   title: string;
   departmentId: string;
   contractType: "CDI" | "CDD" | "Stage" | "Freelance" | "Alternance";
@@ -66,13 +83,14 @@ export type CandidateStage =
 
 export interface Candidate {
   id: string;
+  companyId?: string;
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   address?: string;
   photo?: string;
-  cv?: string; // text content or data url
+  cv?: string;
   coverLetter?: string;
   skills: string[];
   experiences: string;
@@ -89,6 +107,7 @@ export interface Candidate {
 
 export interface Interview {
   id: string;
+  companyId?: string;
   candidateId: string;
   jobOfferId?: string;
   type: "hr" | "technical" | "manager" | "final";
@@ -111,6 +130,7 @@ export type LeaveType =
 
 export interface LeaveRequest {
   id: string;
+  companyId?: string;
   employeeId: string;
   type: LeaveType;
   startDate: string;
@@ -122,6 +142,7 @@ export interface LeaveRequest {
 
 export interface Attendance {
   id: string;
+  companyId?: string;
   employeeId: string;
   date: string;
   checkIn?: string;
@@ -131,6 +152,7 @@ export interface Attendance {
 
 export interface Objective {
   id: string;
+  companyId?: string;
   employeeId: string;
   title: string;
   description: string;
@@ -141,6 +163,7 @@ export interface Objective {
 
 export interface Evaluation {
   id: string;
+  companyId?: string;
   employeeId: string;
   period: string;
   selfScore?: number;
@@ -152,25 +175,28 @@ export interface Evaluation {
 
 export interface Training {
   id: string;
+  companyId?: string;
   title: string;
   type: "internal" | "external";
   description: string;
   duration: string;
-  enrolled: string[]; // employee ids
+  enrolled: string[];
 }
 
 export interface DocumentItem {
   id: string;
+  companyId?: string;
   employeeId?: string;
   candidateId?: string;
   category: "contract" | "amendment" | "diploma" | "certificate" | "attestation" | "id" | "other";
   name: string;
   date: string;
-  fileData?: string; // data url
+  fileData?: string;
 }
 
 export interface AuditLog {
   id: string;
+  companyId?: string;
   userId: string;
   userName: string;
   action: string;
