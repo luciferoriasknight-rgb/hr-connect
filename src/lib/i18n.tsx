@@ -203,7 +203,7 @@ const dict = {
     },
     interviewTypes: { hr: "HR interview", technical: "Tech test", manager: "Manager", final: "Final" },
   },
-} as const;
+};
 
 type Dict = typeof dict.fr;
 
