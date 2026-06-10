@@ -14,7 +14,7 @@ import { useTheme } from "@/lib/theme";
 import { db } from "@/lib/storage";
 
 export function AppShell({ title, children }: { title?: string; children: ReactNode }) {
-  const { user, logout } = useAuth();
+  const { user, logout, company } = useAuth();
   const { lang, setLang, t } = useI18n();
   const { theme, toggle } = useTheme();
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ export function AppShell({ title, children }: { title?: string; children: ReactN
     .join("")
     .toUpperCase() ?? "?";
 
-  const companyLabel = useAuth().company?.name ?? settings.name;
+  const companyLabel = company?.name ?? settings.name;
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">
