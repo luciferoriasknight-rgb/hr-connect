@@ -162,6 +162,12 @@ export function resetAll() {
 export function seedIfEmpty() {
   if (!isBrowser()) return;
   if (localStorage.getItem(KEYS.seeded)) return;
+  // Clean old v1 data so new schema (companies, super_admin, inviteCodes) is consistent
+  localStorage.removeItem("hr.seeded.v1");
+  for (const v of Object.values(KEYS)) {
+    if (v === KEYS.theme || v === KEYS.lang) continue;
+    localStorage.removeItem(v);
+  }
 
   const companies: Company[] = [
     { id: "co_acme", name: "Acme Corp", slug: "acme", inviteCode: "ACME2026", industry: "Tech", size: "51-200", country: "France", plan: "pro", createdAt: new Date().toISOString() },
