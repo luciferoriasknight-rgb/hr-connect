@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { db, makeInviteCode, read, seedIfEmpty, uid, write } from "./storage";
+import { db, makeInviteCode, read, seedIfEmpty, setActiveCompanyId, getActiveCompanyId, uid, write, notify } from "./storage";
 import type { Company, Role, User } from "./types";
 
 type RegisterInput =
@@ -19,11 +19,14 @@ type RegisterInput =
 interface AuthCtx {
   user: User | null;
   company: Company | null;
+  activeCompanyId: string | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<User>;
   register: (input: RegisterInput) => Promise<User>;
   logout: () => void;
   hasRole: (...roles: Role[]) => boolean;
+  /** Super admin only: switch the active company context (or clear with null) */
+  switchCompany: (id: string | null) => void;
 }
 
 const Ctx = createContext<AuthCtx | null>(null);
@@ -31,31 +34,51 @@ const SESSION_KEY = "hr.session";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [activeCompanyId, setActiveCompanyIdState] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     seedIfEmpty();
     const id = read<string | null>(SESSION_KEY, null);
     if (id) {
-      const u = db.users.all().find((x) => x.id === id);
-      if (u) setUser(u);
+      const u = db.users.raw().find((x) => x.id === id);
+      if (u) {
+        setUser(u);
+        // Restore scope
+        if (u.role === "super_admin") {
+          setActiveCompanyIdState(getActiveCompanyId());
+        } else if (u.companyId) {
+          setActiveCompanyId(u.companyId);
+          setActiveCompanyIdState(u.companyId);
+        } else {
+          setActiveCompanyId(null);
+          setActiveCompanyIdState(null);
+        }
+      }
     }
     setLoading(false);
   }, []);
 
-  const company = user?.companyId ? db.companies.get(user.companyId) ?? null : null;
+  const company = activeCompanyId ? db.companies.get(activeCompanyId) ?? null : null;
 
   const login = async (email: string, password: string) => {
-    const u = db.users.all().find((x) => x.email.toLowerCase() === email.toLowerCase() && x.password === password);
+    const u = db.users.raw().find((x) => x.email.toLowerCase() === email.toLowerCase() && x.password === password);
     if (!u) throw new Error("Identifiants invalides");
     write(SESSION_KEY, u.id);
     setUser(u);
+    if (u.role === "super_admin") {
+      setActiveCompanyId(null);
+      setActiveCompanyIdState(null);
+    } else {
+      setActiveCompanyId(u.companyId ?? null);
+      setActiveCompanyIdState(u.companyId ?? null);
+    }
     db.audit.log({ companyId: u.companyId, userId: u.id, userName: u.fullName, action: "login", entity: "auth" });
     return u;
   };
 
   const register: AuthCtx["register"] = async (input) => {
-    const users = db.users.all();
+    const users = db.users.raw();
     if (users.find((u) => u.email.toLowerCase() === input.email.toLowerCase())) {
       throw new Error("Email déjà utilisé");
     }
@@ -84,8 +107,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!co) throw new Error("Code d'invitation invalide");
       companyId = co.id;
       role = "employee";
-    } else {
-      role = "candidate";
     }
 
     const u: User = {
@@ -97,24 +118,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       companyId,
       createdAt: new Date().toISOString(),
     };
-    users.push(u);
-    db.users.save(users);
+    // Bypass scope for user creation
+    write(db.KEYS.users, [u, ...users]);
     write(SESSION_KEY, u.id);
     setUser(u);
+    setActiveCompanyId(companyId ?? null);
+    setActiveCompanyIdState(companyId ?? null);
     db.audit.log({ companyId, userId: u.id, userName: u.fullName, action: "register:" + input.mode, entity: "auth" });
+
+    if (companyId) {
+      notify({
+        companyId,
+        userId: u.id,
+        title: input.mode === "create" ? "Bienvenue sur RHConnect 🎉" : "Bienvenue dans l'équipe",
+        message: input.mode === "create"
+          ? "Votre espace est prêt. Invitez votre équipe via le code d'invitation."
+          : "Vous avez rejoint l'entreprise avec succès.",
+        type: "success",
+      });
+    }
     return u;
   };
 
   const logout = () => {
     if (user) db.audit.log({ companyId: user.companyId, userId: user.id, userName: user.fullName, action: "logout", entity: "auth" });
     write(SESSION_KEY, null);
+    setActiveCompanyId(null);
+    setActiveCompanyIdState(null);
     setUser(null);
   };
 
   const hasRole = (...roles: Role[]) => !!user && roles.includes(user.role);
 
+  const switchCompany = (id: string | null) => {
+    if (!user || user.role !== "super_admin") return;
+    setActiveCompanyId(id);
+    setActiveCompanyIdState(id);
+  };
+
   return (
-    <Ctx.Provider value={{ user, company, loading, login, register, logout, hasRole }}>{children}</Ctx.Provider>
+    <Ctx.Provider value={{ user, company, activeCompanyId, loading, login, register, logout, hasRole, switchCompany }}>{children}</Ctx.Provider>
   );
 }
 

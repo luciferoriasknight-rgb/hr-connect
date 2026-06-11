@@ -4,7 +4,7 @@ export interface Company {
   id: string;
   name: string;
   slug: string;
-  inviteCode: string; // shared to let teammates join
+  inviteCode: string;
   industry?: string;
   size?: "1-10" | "11-50" | "51-200" | "201-1000" | "1000+";
   country?: string;
@@ -19,7 +19,7 @@ export interface User {
   password: string;
   fullName: string;
   role: Role;
-  companyId?: string; // super_admin & candidate may not belong to a company
+  companyId?: string;
   employeeId?: string;
   candidateId?: string;
   avatar?: string;
@@ -70,16 +70,9 @@ export interface JobOffer {
 }
 
 export type CandidateStage =
-  | "received"
-  | "analysis"
-  | "shortlisted"
-  | "technical_test"
-  | "hr_interview"
-  | "manager_interview"
-  | "final_validation"
-  | "hired"
-  | "rejected"
-  | "archived";
+  | "received" | "analysis" | "shortlisted" | "technical_test"
+  | "hr_interview" | "manager_interview" | "final_validation"
+  | "hired" | "rejected" | "archived";
 
 export interface Candidate {
   id: string;
@@ -120,13 +113,7 @@ export interface Interview {
   status: "scheduled" | "done" | "cancelled";
 }
 
-export type LeaveType =
-  | "annual"
-  | "sick"
-  | "maternity"
-  | "paternity"
-  | "exceptional"
-  | "remote";
+export type LeaveType = "annual" | "sick" | "maternity" | "paternity" | "exceptional" | "remote";
 
 export interface LeaveRequest {
   id: string;
@@ -211,4 +198,53 @@ export interface CompanySettings {
   address: string;
   contracts: string[];
   positions: string[];
+}
+
+export interface Invitation {
+  id: string;
+  companyId?: string;
+  email: string;
+  role: Role;
+  status: "pending" | "accepted" | "expired" | "cancelled";
+  invitedBy: string;
+  createdAt: string;
+}
+
+export interface Notification {
+  id: string;
+  companyId?: string;
+  userId?: string; // if undefined: broadcast to company
+  title: string;
+  message: string;
+  type: "info" | "success" | "warning" | "error";
+  read: boolean;
+  link?: string;
+  createdAt: string;
+}
+
+export type PaymentMethodType = "card" | "orange_money" | "mtn_momo" | "wave" | "moov_money" | "paypal";
+
+export interface PaymentMethod {
+  id: string;
+  companyId?: string;
+  type: PaymentMethodType;
+  label: string;
+  holder: string;
+  last4?: string;
+  expiry?: string;
+  phone?: string;
+  isDefault: boolean;
+  createdAt: string;
+}
+
+export interface Payment {
+  id: string;
+  companyId?: string;
+  amount: number;
+  currency: string;
+  method: PaymentMethodType;
+  description: string;
+  status: "succeeded" | "pending" | "failed" | "refunded";
+  invoiceNumber: string;
+  date: string;
 }

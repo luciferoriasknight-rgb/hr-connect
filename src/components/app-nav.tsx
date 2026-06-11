@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, Briefcase, Users, UserSearch, CalendarDays, FileText,
   BarChart3, Settings2, ClipboardCheck, GraduationCap, Network, Clock,
-  Target, UserCircle2, Globe2,
+  Target, UserCircle2, Globe2, Mail, CreditCard, Bell,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
@@ -29,6 +29,9 @@ const NAV: NavItem[] = [
   { to: "/trainings", label: "trainings", icon: GraduationCap, roles: ["super_admin", "admin", "hr", "manager", "employee"] },
   { to: "/documents", label: "documents", icon: FileText, roles: ["super_admin", "admin", "hr", "manager", "employee"] },
   { to: "/reports", label: "reports", icon: BarChart3, roles: ["super_admin", "admin", "hr"] },
+  { to: "/invitations", label: "invitations", icon: Mail, roles: ["super_admin", "admin"] },
+  { to: "/notifications", label: "notifications", icon: Bell, roles: ["super_admin", "admin", "hr", "manager", "employee", "candidate"] },
+  { to: "/billing", label: "billing", icon: CreditCard, roles: ["super_admin", "admin"] },
   { to: "/admin", label: "admin", icon: Settings2, roles: ["super_admin", "admin"] },
   { to: "/profile", label: "profile", icon: UserCircle2, roles: ["super_admin", "admin", "hr", "manager", "employee", "candidate"] },
   { to: "/jobs", label: "publicJobs", icon: Globe2, roles: ["candidate"] },
@@ -47,17 +50,13 @@ export function AppNav({ onNavigate }: { onNavigate?: () => void }) {
         const Icon = item.icon;
         const active = pathname === item.to || pathname.startsWith(item.to + "/");
         return (
-          <Link
-            key={item.to}
-            to={item.to}
-            onClick={onNavigate}
+          <Link key={item.to} to={item.to} onClick={onNavigate}
             className={cn(
               "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
               active
                 ? "bg-sidebar-accent text-sidebar-accent-foreground"
                 : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60 hover:text-sidebar-foreground",
-            )}
-          >
+            )}>
             <Icon className="h-4 w-4 shrink-0" />
             <span className="truncate">{t[item.label] as string}</span>
           </Link>

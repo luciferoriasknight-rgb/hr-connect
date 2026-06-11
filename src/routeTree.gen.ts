@@ -9,7 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTrainingsRouteImport } from './routes/_app.trainings'
@@ -18,20 +22,43 @@ import { Route as AppProfileRouteImport } from './routes/_app.profile'
 import { Route as AppPerformanceRouteImport } from './routes/_app.performance'
 import { Route as AppOrgRouteImport } from './routes/_app.org'
 import { Route as AppOffersRouteImport } from './routes/_app.offers'
+import { Route as AppNotificationsRouteImport } from './routes/_app.notifications'
 import { Route as AppLeavesRouteImport } from './routes/_app.leaves'
 import { Route as AppJobsRouteImport } from './routes/_app.jobs'
+import { Route as AppInvitationsRouteImport } from './routes/_app.invitations'
 import { Route as AppInterviewsRouteImport } from './routes/_app.interviews'
 import { Route as AppEmployeesRouteImport } from './routes/_app.employees'
 import { Route as AppDocumentsRouteImport } from './routes/_app.documents'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppCandidatesRouteImport } from './routes/_app.candidates'
+import { Route as AppBillingRouteImport } from './routes/_app.billing'
 import { Route as AppAttendanceRouteImport } from './routes/_app.attendance'
 import { Route as AppAdminRouteImport } from './routes/_app.admin'
 import { Route as AppEmployeesIdRouteImport } from './routes/_app.employees.$id'
 
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesRoute = FeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -73,6 +100,11 @@ const AppOffersRoute = AppOffersRouteImport.update({
   path: '/offers',
   getParentRoute: () => AppRoute,
 } as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppLeavesRoute = AppLeavesRouteImport.update({
   id: '/leaves',
   path: '/leaves',
@@ -81,6 +113,11 @@ const AppLeavesRoute = AppLeavesRouteImport.update({
 const AppJobsRoute = AppJobsRouteImport.update({
   id: '/jobs',
   path: '/jobs',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppInvitationsRoute = AppInvitationsRouteImport.update({
+  id: '/invitations',
+  path: '/invitations',
   getParentRoute: () => AppRoute,
 } as any)
 const AppInterviewsRoute = AppInterviewsRouteImport.update({
@@ -108,6 +145,11 @@ const AppCandidatesRoute = AppCandidatesRouteImport.update({
   path: '/candidates',
   getParentRoute: () => AppRoute,
 } as any)
+const AppBillingRoute = AppBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAttendanceRoute = AppAttendanceRouteImport.update({
   id: '/attendance',
   path: '/attendance',
@@ -126,16 +168,23 @@ const AppEmployeesIdRoute = AppEmployeesIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/features': typeof FeaturesRoute
+  '/pricing': typeof PricingRoute
   '/admin': typeof AppAdminRoute
   '/attendance': typeof AppAttendanceRoute
+  '/billing': typeof AppBillingRoute
   '/candidates': typeof AppCandidatesRoute
   '/dashboard': typeof AppDashboardRoute
   '/documents': typeof AppDocumentsRoute
   '/employees': typeof AppEmployeesRouteWithChildren
   '/interviews': typeof AppInterviewsRoute
+  '/invitations': typeof AppInvitationsRoute
   '/jobs': typeof AppJobsRoute
   '/leaves': typeof AppLeavesRoute
+  '/notifications': typeof AppNotificationsRoute
   '/offers': typeof AppOffersRoute
   '/org': typeof AppOrgRoute
   '/performance': typeof AppPerformanceRoute
@@ -146,16 +195,23 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/features': typeof FeaturesRoute
+  '/pricing': typeof PricingRoute
   '/admin': typeof AppAdminRoute
   '/attendance': typeof AppAttendanceRoute
+  '/billing': typeof AppBillingRoute
   '/candidates': typeof AppCandidatesRoute
   '/dashboard': typeof AppDashboardRoute
   '/documents': typeof AppDocumentsRoute
   '/employees': typeof AppEmployeesRouteWithChildren
   '/interviews': typeof AppInterviewsRoute
+  '/invitations': typeof AppInvitationsRoute
   '/jobs': typeof AppJobsRoute
   '/leaves': typeof AppLeavesRoute
+  '/notifications': typeof AppNotificationsRoute
   '/offers': typeof AppOffersRoute
   '/org': typeof AppOrgRoute
   '/performance': typeof AppPerformanceRoute
@@ -168,16 +224,23 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/features': typeof FeaturesRoute
+  '/pricing': typeof PricingRoute
   '/_app/admin': typeof AppAdminRoute
   '/_app/attendance': typeof AppAttendanceRoute
+  '/_app/billing': typeof AppBillingRoute
   '/_app/candidates': typeof AppCandidatesRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/documents': typeof AppDocumentsRoute
   '/_app/employees': typeof AppEmployeesRouteWithChildren
   '/_app/interviews': typeof AppInterviewsRoute
+  '/_app/invitations': typeof AppInvitationsRoute
   '/_app/jobs': typeof AppJobsRoute
   '/_app/leaves': typeof AppLeavesRoute
+  '/_app/notifications': typeof AppNotificationsRoute
   '/_app/offers': typeof AppOffersRoute
   '/_app/org': typeof AppOrgRoute
   '/_app/performance': typeof AppPerformanceRoute
@@ -190,16 +253,23 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/auth'
+    | '/contact'
+    | '/features'
+    | '/pricing'
     | '/admin'
     | '/attendance'
+    | '/billing'
     | '/candidates'
     | '/dashboard'
     | '/documents'
     | '/employees'
     | '/interviews'
+    | '/invitations'
     | '/jobs'
     | '/leaves'
+    | '/notifications'
     | '/offers'
     | '/org'
     | '/performance'
@@ -210,16 +280,23 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/auth'
+    | '/contact'
+    | '/features'
+    | '/pricing'
     | '/admin'
     | '/attendance'
+    | '/billing'
     | '/candidates'
     | '/dashboard'
     | '/documents'
     | '/employees'
     | '/interviews'
+    | '/invitations'
     | '/jobs'
     | '/leaves'
+    | '/notifications'
     | '/offers'
     | '/org'
     | '/performance'
@@ -231,16 +308,23 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_app'
+    | '/about'
     | '/auth'
+    | '/contact'
+    | '/features'
+    | '/pricing'
     | '/_app/admin'
     | '/_app/attendance'
+    | '/_app/billing'
     | '/_app/candidates'
     | '/_app/dashboard'
     | '/_app/documents'
     | '/_app/employees'
     | '/_app/interviews'
+    | '/_app/invitations'
     | '/_app/jobs'
     | '/_app/leaves'
+    | '/_app/notifications'
     | '/_app/offers'
     | '/_app/org'
     | '/_app/performance'
@@ -253,16 +337,48 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
+  ContactRoute: typeof ContactRoute
+  FeaturesRoute: typeof FeaturesRoute
+  PricingRoute: typeof PricingRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app': {
@@ -321,6 +437,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppOffersRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/notifications': {
+      id: '/_app/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/leaves': {
       id: '/_app/leaves'
       path: '/leaves'
@@ -333,6 +456,13 @@ declare module '@tanstack/react-router' {
       path: '/jobs'
       fullPath: '/jobs'
       preLoaderRoute: typeof AppJobsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/invitations': {
+      id: '/_app/invitations'
+      path: '/invitations'
+      fullPath: '/invitations'
+      preLoaderRoute: typeof AppInvitationsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/interviews': {
@@ -368,6 +498,13 @@ declare module '@tanstack/react-router' {
       path: '/candidates'
       fullPath: '/candidates'
       preLoaderRoute: typeof AppCandidatesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/billing': {
+      id: '/_app/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof AppBillingRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/attendance': {
@@ -409,13 +546,16 @@ const AppEmployeesRouteWithChildren = AppEmployeesRoute._addFileChildren(
 interface AppRouteChildren {
   AppAdminRoute: typeof AppAdminRoute
   AppAttendanceRoute: typeof AppAttendanceRoute
+  AppBillingRoute: typeof AppBillingRoute
   AppCandidatesRoute: typeof AppCandidatesRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppDocumentsRoute: typeof AppDocumentsRoute
   AppEmployeesRoute: typeof AppEmployeesRouteWithChildren
   AppInterviewsRoute: typeof AppInterviewsRoute
+  AppInvitationsRoute: typeof AppInvitationsRoute
   AppJobsRoute: typeof AppJobsRoute
   AppLeavesRoute: typeof AppLeavesRoute
+  AppNotificationsRoute: typeof AppNotificationsRoute
   AppOffersRoute: typeof AppOffersRoute
   AppOrgRoute: typeof AppOrgRoute
   AppPerformanceRoute: typeof AppPerformanceRoute
@@ -427,13 +567,16 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAdminRoute: AppAdminRoute,
   AppAttendanceRoute: AppAttendanceRoute,
+  AppBillingRoute: AppBillingRoute,
   AppCandidatesRoute: AppCandidatesRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppDocumentsRoute: AppDocumentsRoute,
   AppEmployeesRoute: AppEmployeesRouteWithChildren,
   AppInterviewsRoute: AppInterviewsRoute,
+  AppInvitationsRoute: AppInvitationsRoute,
   AppJobsRoute: AppJobsRoute,
   AppLeavesRoute: AppLeavesRoute,
+  AppNotificationsRoute: AppNotificationsRoute,
   AppOffersRoute: AppOffersRoute,
   AppOrgRoute: AppOrgRoute,
   AppPerformanceRoute: AppPerformanceRoute,
@@ -447,7 +590,11 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
+  ContactRoute: ContactRoute,
+  FeaturesRoute: FeaturesRoute,
+  PricingRoute: PricingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
