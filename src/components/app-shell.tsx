@@ -46,7 +46,7 @@ export function AppShell({ title, children }: { title?: string; children: ReactN
 
   const initials = user?.fullName.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase() ?? "?";
   const companyLabel = company?.name ?? (user?.role === "super_admin" ? t.allCompanies : settings.name);
-  const allCompanies = db.companies.all();
+  
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">
