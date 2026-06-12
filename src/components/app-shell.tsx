@@ -15,7 +15,7 @@ import { db } from "@/lib/storage";
 import type { Notification } from "@/lib/types";
 
 export function AppShell({ title, children }: { title?: string; children: ReactNode }) {
-  const { user, logout, company, switchCompany, activeCompanyId } = useAuth();
+  const { user, logout, company, activeCompanyId } = useAuth();
   const { lang, setLang, t } = useI18n();
   const { theme, toggle } = useTheme();
   const navigate = useNavigate();
