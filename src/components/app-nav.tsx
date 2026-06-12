@@ -38,11 +38,20 @@ const NAV: NavItem[] = [
 ];
 
 export function AppNav({ onNavigate }: { onNavigate?: () => void }) {
-  const { user } = useAuth();
+  const { user, activeCompanyId } = useAuth();
   const { t } = useI18n();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   if (!user) return null;
-  const items = NAV.filter((n) => n.roles.includes(user.role));
+  const requiresCompany = new Set([
+    "/offers", "/candidates", "/interviews", "/employees", "/org", "/leaves",
+    "/attendance", "/performance", "/trainings", "/documents", "/reports",
+    "/invitations", "/billing",
+  ]);
+  const items = NAV.filter((n) => {
+    if (!n.roles.includes(user.role)) return false;
+    if (user.role === "super_admin" && !activeCompanyId && requiresCompany.has(n.to)) return false;
+    return true;
+  });
 
   return (
     <nav className="flex flex-col gap-0.5 px-2 py-3">
