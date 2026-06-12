@@ -1,13 +1,12 @@
 import { type ReactNode, useEffect, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, Moon, Sun, LogOut, Languages, Building2, Bell, Check, ChevronsUpDown } from "lucide-react";
+import { Menu, Moon, Sun, LogOut, Languages, Building2, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Badge } from "@/components/ui/badge";
 import { AppNav } from "./app-nav";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
@@ -16,7 +15,7 @@ import { db } from "@/lib/storage";
 import type { Notification } from "@/lib/types";
 
 export function AppShell({ title, children }: { title?: string; children: ReactNode }) {
-  const { user, logout, company, switchCompany, activeCompanyId } = useAuth();
+  const { user, logout, company, activeCompanyId } = useAuth();
   const { lang, setLang, t } = useI18n();
   const { theme, toggle } = useTheme();
   const navigate = useNavigate();
@@ -47,7 +46,7 @@ export function AppShell({ title, children }: { title?: string; children: ReactN
 
   const initials = user?.fullName.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase() ?? "?";
   const companyLabel = company?.name ?? (user?.role === "super_admin" ? t.allCompanies : settings.name);
-  const allCompanies = db.companies.all();
+  
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">
@@ -84,34 +83,6 @@ export function AppShell({ title, children }: { title?: string; children: ReactN
           <h1 className="text-base font-semibold tracking-tight md:text-lg">{title}</h1>
 
           <div className="ml-auto flex items-center gap-2">
-            {/* Super admin company switcher */}
-            {user?.role === "super_admin" && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="gap-1.5">
-                    <Building2 className="h-4 w-4" />
-                    <span className="max-w-32 truncate">{companyLabel}</span>
-                    <ChevronsUpDown className="h-3.5 w-3.5 opacity-50" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuLabel>{t.switchCompany}</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => switchCompany(null)}>
-                    {!activeCompanyId && <Check className="mr-2 h-4 w-4" />} {t.allCompanies}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  {allCompanies.map((c) => (
-                    <DropdownMenuItem key={c.id} onClick={() => switchCompany(c.id)}>
-                      {activeCompanyId === c.id && <Check className="mr-2 h-4 w-4" />}
-                      {c.name}
-                      <Badge variant="outline" className="ml-auto text-[10px]">{c.plan}</Badge>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
-
             {/* Notifications */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

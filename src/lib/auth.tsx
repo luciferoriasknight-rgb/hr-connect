@@ -27,6 +27,9 @@ interface AuthCtx {
   hasRole: (...roles: Role[]) => boolean;
   /** Super admin only: switch the active company context (or clear with null) */
   switchCompany: (id: string | null) => void;
+  /** Update current user's profile fields (and optionally linked employee record) */
+  updateProfile: (patch: Partial<Pick<User, "fullName" | "email" | "avatar">> & { phone?: string; address?: string }) => void;
+  changePassword: (current: string, next: string) => void;
 }
 
 const Ctx = createContext<AuthCtx | null>(null);
@@ -156,8 +159,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setActiveCompanyIdState(id);
   };
 
+  const updateProfile: AuthCtx["updateProfile"] = (patch) => {
+    if (!user) return;
+    const users = db.users.raw();
+    const next: User = {
+      ...user,
+      fullName: patch.fullName ?? user.fullName,
+      email: patch.email ?? user.email,
+      avatar: patch.avatar ?? user.avatar,
+    };
+    write(db.KEYS.users, users.map((u) => (u.id === user.id ? next : u)));
+    // Sync linked employee
+    if (user.employeeId && (patch.phone !== undefined || patch.address !== undefined || patch.fullName || patch.email)) {
+      const emps = read<import("./types").Employee[]>(db.KEYS.employees, []);
+      const updated = emps.map((e) => {
+        if (e.id !== user.employeeId) return e;
+        const [firstName, ...rest] = (patch.fullName ?? user.fullName).split(" ");
+        return {
+          ...e,
+          firstName: firstName || e.firstName,
+          lastName: rest.join(" ") || e.lastName,
+          email: patch.email ?? e.email,
+          phone: patch.phone ?? e.phone,
+          address: patch.address ?? e.address,
+        };
+      });
+      write(db.KEYS.employees, updated);
+    }
+    setUser(next);
+    db.audit.log({ companyId: user.companyId, userId: user.id, userName: next.fullName, action: "profile:update", entity: "user" });
+  };
+
+  const changePassword: AuthCtx["changePassword"] = (current, nextPwd) => {
+    if (!user) throw new Error("Not authenticated");
+    if (user.password !== current) throw new Error("Mot de passe actuel invalide");
+    if (!nextPwd || nextPwd.length < 6) throw new Error("Mot de passe trop court (min 6)");
+    const users = db.users.raw();
+    const next: User = { ...user, password: nextPwd };
+    write(db.KEYS.users, users.map((u) => (u.id === user.id ? next : u)));
+    setUser(next);
+    db.audit.log({ companyId: user.companyId, userId: user.id, userName: user.fullName, action: "password:change", entity: "user" });
+  };
+
   return (
-    <Ctx.Provider value={{ user, company, activeCompanyId, loading, login, register, logout, hasRole, switchCompany }}>{children}</Ctx.Provider>
+    <Ctx.Provider value={{ user, company, activeCompanyId, loading, login, register, logout, hasRole, switchCompany, updateProfile, changePassword }}>{children}</Ctx.Provider>
   );
 }
 
