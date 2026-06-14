@@ -87,6 +87,11 @@ export function AppShell({ title, children }: { title?: string; children: ReactN
                 <div className="text-sm font-semibold">{companyLabel}</div>
               </div>
               <AppNav onNavigate={() => setOpen(false)} />
+              <div className="border-t p-3">
+                <Button variant="ghost" className="w-full justify-start gap-2 text-destructive" onClick={() => { setOpen(false); onLogout(); }}>
+                  <LogOut className="h-4 w-4" /> {t.logout}
+                </Button>
+              </div>
             </SheetContent>
           </Sheet>
 
