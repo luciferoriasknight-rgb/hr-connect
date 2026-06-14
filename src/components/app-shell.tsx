@@ -63,6 +63,16 @@ export function AppShell({ title, children }: { title?: string; children: ReactN
         <div className="flex-1 overflow-y-auto">
           <AppNav />
         </div>
+        <div className="border-t border-sidebar-border p-3">
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-2 text-sidebar-foreground/80 hover:bg-destructive/10 hover:text-destructive"
+            onClick={onLogout}
+          >
+            <LogOut className="h-4 w-4" />
+            {t.logout}
+          </Button>
+        </div>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -77,6 +87,11 @@ export function AppShell({ title, children }: { title?: string; children: ReactN
                 <div className="text-sm font-semibold">{companyLabel}</div>
               </div>
               <AppNav onNavigate={() => setOpen(false)} />
+              <div className="border-t p-3">
+                <Button variant="ghost" className="w-full justify-start gap-2 text-destructive" onClick={() => { setOpen(false); onLogout(); }}>
+                  <LogOut className="h-4 w-4" /> {t.logout}
+                </Button>
+              </div>
             </SheetContent>
           </Sheet>
 

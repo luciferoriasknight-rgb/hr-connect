@@ -81,6 +81,13 @@ const GROUPS: NavGroup[] = [
     ],
   },
   {
+    id: "platformAdmin",
+    label: "platformAdmin",
+    items: [
+      { to: "/platform", label: "platform", icon: Building2, roles: ["super_admin"] },
+    ],
+  },
+  {
     id: "administration",
     label: "administration",
     items: [

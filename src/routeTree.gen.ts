@@ -19,6 +19,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTrainingsRouteImport } from './routes/_app.trainings'
 import { Route as AppReportsRouteImport } from './routes/_app.reports'
 import { Route as AppProfileRouteImport } from './routes/_app.profile'
+import { Route as AppPlatformRouteImport } from './routes/_app.platform'
 import { Route as AppPerformanceRouteImport } from './routes/_app.performance'
 import { Route as AppOrgRouteImport } from './routes/_app.org'
 import { Route as AppOffersRouteImport } from './routes/_app.offers'
@@ -83,6 +84,11 @@ const AppReportsRoute = AppReportsRouteImport.update({
 const AppProfileRoute = AppProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPlatformRoute = AppPlatformRouteImport.update({
+  id: '/platform',
+  path: '/platform',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPerformanceRoute = AppPerformanceRouteImport.update({
@@ -188,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/offers': typeof AppOffersRoute
   '/org': typeof AppOrgRoute
   '/performance': typeof AppPerformanceRoute
+  '/platform': typeof AppPlatformRoute
   '/profile': typeof AppProfileRoute
   '/reports': typeof AppReportsRoute
   '/trainings': typeof AppTrainingsRoute
@@ -215,6 +222,7 @@ export interface FileRoutesByTo {
   '/offers': typeof AppOffersRoute
   '/org': typeof AppOrgRoute
   '/performance': typeof AppPerformanceRoute
+  '/platform': typeof AppPlatformRoute
   '/profile': typeof AppProfileRoute
   '/reports': typeof AppReportsRoute
   '/trainings': typeof AppTrainingsRoute
@@ -244,6 +252,7 @@ export interface FileRoutesById {
   '/_app/offers': typeof AppOffersRoute
   '/_app/org': typeof AppOrgRoute
   '/_app/performance': typeof AppPerformanceRoute
+  '/_app/platform': typeof AppPlatformRoute
   '/_app/profile': typeof AppProfileRoute
   '/_app/reports': typeof AppReportsRoute
   '/_app/trainings': typeof AppTrainingsRoute
@@ -273,6 +282,7 @@ export interface FileRouteTypes {
     | '/offers'
     | '/org'
     | '/performance'
+    | '/platform'
     | '/profile'
     | '/reports'
     | '/trainings'
@@ -300,6 +310,7 @@ export interface FileRouteTypes {
     | '/offers'
     | '/org'
     | '/performance'
+    | '/platform'
     | '/profile'
     | '/reports'
     | '/trainings'
@@ -328,6 +339,7 @@ export interface FileRouteTypes {
     | '/_app/offers'
     | '/_app/org'
     | '/_app/performance'
+    | '/_app/platform'
     | '/_app/profile'
     | '/_app/reports'
     | '/_app/trainings'
@@ -414,6 +426,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/platform': {
+      id: '/_app/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof AppPlatformRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/performance': {
@@ -559,6 +578,7 @@ interface AppRouteChildren {
   AppOffersRoute: typeof AppOffersRoute
   AppOrgRoute: typeof AppOrgRoute
   AppPerformanceRoute: typeof AppPerformanceRoute
+  AppPlatformRoute: typeof AppPlatformRoute
   AppProfileRoute: typeof AppProfileRoute
   AppReportsRoute: typeof AppReportsRoute
   AppTrainingsRoute: typeof AppTrainingsRoute
@@ -580,6 +600,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppOffersRoute: AppOffersRoute,
   AppOrgRoute: AppOrgRoute,
   AppPerformanceRoute: AppPerformanceRoute,
+  AppPlatformRoute: AppPlatformRoute,
   AppProfileRoute: AppProfileRoute,
   AppReportsRoute: AppReportsRoute,
   AppTrainingsRoute: AppTrainingsRoute,
