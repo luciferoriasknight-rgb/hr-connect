@@ -203,11 +203,55 @@ function Page() {
           <Card>
             <CardContent className="p-6">
               <div className="text-sm text-muted-foreground">Plan actuel</div>
-              <div className="mt-1 text-3xl font-bold">Pro</div>
+              <div className="mt-1 flex items-center gap-3">
+                <div className="text-3xl font-bold capitalize">{currentPlan}</div>
+                <Badge variant="secondary" className="uppercase">{currentPlan === "free" ? "Gratuit" : currentPlan === "pro" ? "12€ / employé / mois" : "Sur devis"}</Badge>
+              </div>
               <p className="mt-2 text-sm text-muted-foreground">Facturé mensuellement — prochain prélèvement le 1er du mois.</p>
               <div className="mt-5 flex gap-2">
-                <Button>Mettre à niveau</Button>
-                <Button variant="outline">Voir les plans</Button>
+                <Dialog open={upgradeOpen} onOpenChange={setUpgradeOpen}>
+                  <DialogTrigger asChild>
+                    <Button disabled={currentPlan === "enterprise"}>
+                      <ArrowUpCircle className="mr-1.5 h-4 w-4" />Mettre à niveau
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader><DialogTitle>Changer de forfait</DialogTitle></DialogHeader>
+                    <div className="space-y-3">
+                      <p className="text-sm text-muted-foreground">Choisissez votre nouveau forfait. Le changement est immédiat.</p>
+                      <div className="space-y-1.5">
+                        <Label>Nouveau forfait</Label>
+                        <Select value={targetPlan} onValueChange={(v) => setTargetPlan(v as Company["plan"])}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="free" disabled={currentPlan === "free"}>Starter — Gratuit</SelectItem>
+                            <SelectItem value="pro" disabled={currentPlan === "pro"}>Pro — 12€ / employé / mois</SelectItem>
+                            <SelectItem value="enterprise" disabled={currentPlan === "enterprise"}>Enterprise — Sur devis</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button variant="ghost" onClick={() => setUpgradeOpen(false)}>Annuler</Button>
+                      <Button
+                        onClick={() => {
+                          if (company) {
+                            const all = db.companies.all();
+                            write(db.KEYS.companies, all.map((c) => (c.id === company.id ? { ...c, plan: targetPlan } : c)));
+                          }
+                          setCurrentPlan(targetPlan);
+                          setUpgradeOpen(false);
+                          toast.success(`Forfait mis à jour : ${targetPlan}`);
+                        }}
+                      >
+                        Confirmer le changement
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+                <Link to="/pricing">
+                  <Button variant="outline"><ListChecks className="mr-1.5 h-4 w-4" />Voir les plans</Button>
+                </Link>
               </div>
             </CardContent>
           </Card>
