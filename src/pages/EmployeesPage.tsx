@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Plus, Search, FileDown } from "lucide-react";
+import { Plus, Search, FileDown, Pencil, Eye } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -186,9 +186,9 @@ function EmployeesPage() {
                     <Badge variant={e.status === "active" ? "default" : "outline"}>{e.status}</Badge>
                   </td>
                   <td className="p-3 text-right">
-                    <Button size="sm" variant="ghost" onClick={() => openEdit(e)}>{t.edit}</Button>
-                    <Button size="sm" variant="ghost" asChild>
-                      <Link to="/employees/$id" params={{ id: e.id }}>Voir</Link>
+                    <Button size="icon" variant="ghost" onClick={() => openEdit(e)} title={t.edit} aria-label={t.edit}><Pencil className="h-4 w-4" /></Button>
+                    <Button size="icon" variant="ghost" asChild title="Voir" aria-label="Voir">
+                      <Link to="/employees/$id" params={{ id: e.id }}><Eye className="h-4 w-4" /></Link>
                     </Button>
                   </td>
                 </tr>
