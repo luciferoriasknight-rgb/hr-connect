@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { CreditCard, Smartphone, Plus, Trash2, CheckCircle2, Receipt } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { CreditCard, Smartphone, Plus, Trash2, CheckCircle2, Receipt, ArrowUpCircle, ListChecks } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,9 +10,10 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { db, uid } from "@/lib/storage";
+import { db, uid, write } from "@/lib/storage";
+import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
-import type { PaymentMethod, PaymentMethodType } from "@/lib/types";
+import type { PaymentMethod, PaymentMethodType, Company } from "@/lib/types";
 import { toast } from "sonner";
 
 const METHOD_LABELS: Record<PaymentMethodType, string> = {
@@ -25,9 +27,13 @@ const METHOD_LABELS: Record<PaymentMethodType, string> = {
 
 function Page() {
   const { t } = useI18n();
+  const { company } = useAuth();
+  const [currentPlan, setCurrentPlan] = useState<Company["plan"]>(company?.plan ?? "free");
   const [methods, setMethods] = useState<PaymentMethod[]>(() => db.paymentMethods.all());
   const [payments] = useState(() => db.payments.all());
   const [open, setOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [targetPlan, setTargetPlan] = useState<Company["plan"]>(currentPlan === "free" ? "pro" : "enterprise");
   const [type, setType] = useState<PaymentMethodType>("card");
   const [holder, setHolder] = useState("");
   const [cardNumber, setCardNumber] = useState("");
