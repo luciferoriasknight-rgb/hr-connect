@@ -3,7 +3,7 @@ import {
   LayoutDashboard, Briefcase, Users, UserSearch, CalendarDays, FileText,
   BarChart3, Settings2, ClipboardCheck, GraduationCap, Network, Clock,
   Target, UserCircle2, Globe2, Mail, CreditCard, Bell, Building2,
-  Check, ChevronsUpDown,
+  Check, ChevronsUpDown, FileEdit,
 } from "lucide-react";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
