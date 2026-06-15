@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { toast } from "sonner";
+import { getLanding } from "@/lib/landing-content";
 
 function Page() {
   const [submitting, setSubmitting] = useState(false);
@@ -44,11 +45,14 @@ function Page() {
             </CardContent>
           </Card>
           <div className="space-y-4 md:col-span-2">
-            {[
-              { icon: Mail, title: "Email", value: "hello@rhconnect.io" },
-              { icon: Phone, title: "Téléphone", value: "+33 1 23 45 67 89" },
-              { icon: MapPin, title: "Adresse", value: "1 rue de la Paix, 75002 Paris" },
-            ].map(({ icon: Icon, title, value }) => (
+            {(() => {
+              const { contact } = getLanding();
+              return [
+                { icon: Mail, title: "Email", value: contact.email },
+                { icon: Phone, title: "Téléphone", value: contact.phone },
+                { icon: MapPin, title: "Adresse", value: contact.address },
+              ];
+            })().map(({ icon: Icon, title, value }) => (
               <Card key={title} className="bg-card/70 backdrop-blur">
                 <CardContent className="flex items-start gap-3 p-5">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">

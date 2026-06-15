@@ -9,11 +9,13 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { LandingShell } from "@/components/landing-shell";
+import { getLanding } from "@/lib/landing-content";
 import heroBg from "@/assets/hero-bg.jpg";
 
 function Landing() {
   const { user } = useAuth();
   const { t } = useI18n();
+  const { hero } = getLanding();
 
   const ctaTarget = user
     ? user.role === "candidate" ? "/jobs" : "/dashboard"
@@ -56,23 +58,23 @@ function Landing() {
         <div className="mx-auto grid max-w-7xl gap-12 px-4 py-20 md:grid-cols-2 md:px-8 md:py-28 lg:py-36">
           <div className="flex flex-col justify-center">
             <Badge variant="secondary" className="mb-5 w-fit gap-1.5 rounded-full border border-primary/30 bg-background/70 px-3 py-1 text-primary backdrop-blur">
-              <Sparkles className="h-3.5 w-3.5" /> {t.landing.heroTagline}
+              <Sparkles className="h-3.5 w-3.5" /> {hero.tagline}
             </Badge>
             <h1 className="text-4xl font-bold leading-[1.05] tracking-tight text-balance md:text-5xl lg:text-6xl">
-              {t.landing.heroTitle}
+              {hero.title}
             </h1>
             <p className="mt-5 max-w-xl text-base text-muted-foreground md:text-lg">
-              {t.landing.heroSubtitle}
+              {hero.subtitle}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link to={ctaTarget}>
                 <Button size="lg" className="h-12 gap-2 px-6 text-base shadow-lg shadow-primary/25">
-                  {t.landing.ctaPrimary} <ArrowRight className="h-4 w-4" />
+                  {hero.ctaPrimary} <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
               <Link to="/features">
                 <Button size="lg" variant="outline" className="h-12 bg-background/70 px-6 text-base backdrop-blur">
-                  {t.landing.ctaSecondary}
+                  {hero.ctaSecondary}
                 </Button>
               </Link>
             </div>
