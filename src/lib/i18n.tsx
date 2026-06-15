@@ -113,6 +113,7 @@ const dict = {
     finish: "Terminer",
     step: "Étape",
     roles: { super_admin: "Super admin", admin: "Administrateur", hr: "RH", manager: "Manager", employee: "Employé", candidate: "Candidat" },
+    landingContent: "Contenu landing",
     navGroups: {
       overview: "Aperçu", recruitment: "Recrutement", people: "Personnel",
       timeOff: "Temps & congés", documents: "Documents & rapports",
@@ -226,6 +227,7 @@ const dict = {
     allCompanies: "All companies", switchCompany: "Switch company",
     next: "Next", back: "Back", finish: "Finish", step: "Step",
     roles: { super_admin: "Super admin", admin: "Administrator", hr: "HR", manager: "Manager", employee: "Employee", candidate: "Candidate" },
+    landingContent: "Landing content",
     navGroups: {
       overview: "Overview", recruitment: "Recruitment", people: "People",
       timeOff: "Time & leaves", documents: "Documents & reports",

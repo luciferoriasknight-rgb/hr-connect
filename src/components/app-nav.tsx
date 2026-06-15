@@ -85,6 +85,7 @@ const GROUPS: NavGroup[] = [
     label: "platformAdmin",
     items: [
       { to: "/platform", label: "platform", icon: Building2, roles: ["super_admin"] },
+      { to: "/landing-content", label: "landingContent", icon: FileEdit, roles: ["super_admin"] },
     ],
   },
   {
