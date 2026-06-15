@@ -25,6 +25,7 @@ import { Route as AppOrgRouteImport } from './routes/_app.org'
 import { Route as AppOffersRouteImport } from './routes/_app.offers'
 import { Route as AppNotificationsRouteImport } from './routes/_app.notifications'
 import { Route as AppLeavesRouteImport } from './routes/_app.leaves'
+import { Route as AppLandingContentRouteImport } from './routes/_app.landing-content'
 import { Route as AppJobsRouteImport } from './routes/_app.jobs'
 import { Route as AppInvitationsRouteImport } from './routes/_app.invitations'
 import { Route as AppInterviewsRouteImport } from './routes/_app.interviews'
@@ -116,6 +117,11 @@ const AppLeavesRoute = AppLeavesRouteImport.update({
   path: '/leaves',
   getParentRoute: () => AppRoute,
 } as any)
+const AppLandingContentRoute = AppLandingContentRouteImport.update({
+  id: '/landing-content',
+  path: '/landing-content',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppJobsRoute = AppJobsRouteImport.update({
   id: '/jobs',
   path: '/jobs',
@@ -189,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/interviews': typeof AppInterviewsRoute
   '/invitations': typeof AppInvitationsRoute
   '/jobs': typeof AppJobsRoute
+  '/landing-content': typeof AppLandingContentRoute
   '/leaves': typeof AppLeavesRoute
   '/notifications': typeof AppNotificationsRoute
   '/offers': typeof AppOffersRoute
@@ -217,6 +224,7 @@ export interface FileRoutesByTo {
   '/interviews': typeof AppInterviewsRoute
   '/invitations': typeof AppInvitationsRoute
   '/jobs': typeof AppJobsRoute
+  '/landing-content': typeof AppLandingContentRoute
   '/leaves': typeof AppLeavesRoute
   '/notifications': typeof AppNotificationsRoute
   '/offers': typeof AppOffersRoute
@@ -247,6 +255,7 @@ export interface FileRoutesById {
   '/_app/interviews': typeof AppInterviewsRoute
   '/_app/invitations': typeof AppInvitationsRoute
   '/_app/jobs': typeof AppJobsRoute
+  '/_app/landing-content': typeof AppLandingContentRoute
   '/_app/leaves': typeof AppLeavesRoute
   '/_app/notifications': typeof AppNotificationsRoute
   '/_app/offers': typeof AppOffersRoute
@@ -277,6 +286,7 @@ export interface FileRouteTypes {
     | '/interviews'
     | '/invitations'
     | '/jobs'
+    | '/landing-content'
     | '/leaves'
     | '/notifications'
     | '/offers'
@@ -305,6 +315,7 @@ export interface FileRouteTypes {
     | '/interviews'
     | '/invitations'
     | '/jobs'
+    | '/landing-content'
     | '/leaves'
     | '/notifications'
     | '/offers'
@@ -334,6 +345,7 @@ export interface FileRouteTypes {
     | '/_app/interviews'
     | '/_app/invitations'
     | '/_app/jobs'
+    | '/_app/landing-content'
     | '/_app/leaves'
     | '/_app/notifications'
     | '/_app/offers'
@@ -470,6 +482,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLeavesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/landing-content': {
+      id: '/_app/landing-content'
+      path: '/landing-content'
+      fullPath: '/landing-content'
+      preLoaderRoute: typeof AppLandingContentRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/jobs': {
       id: '/_app/jobs'
       path: '/jobs'
@@ -573,6 +592,7 @@ interface AppRouteChildren {
   AppInterviewsRoute: typeof AppInterviewsRoute
   AppInvitationsRoute: typeof AppInvitationsRoute
   AppJobsRoute: typeof AppJobsRoute
+  AppLandingContentRoute: typeof AppLandingContentRoute
   AppLeavesRoute: typeof AppLeavesRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppOffersRoute: typeof AppOffersRoute
@@ -595,6 +615,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppInterviewsRoute: AppInterviewsRoute,
   AppInvitationsRoute: AppInvitationsRoute,
   AppJobsRoute: AppJobsRoute,
+  AppLandingContentRoute: AppLandingContentRoute,
   AppLeavesRoute: AppLeavesRoute,
   AppNotificationsRoute: AppNotificationsRoute,
   AppOffersRoute: AppOffersRoute,

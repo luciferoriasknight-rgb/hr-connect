@@ -2,24 +2,22 @@ import { LandingShell } from "@/components/landing-shell";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Target, Heart, Globe2 } from "lucide-react";
+import { getLanding } from "@/lib/landing-content";
 
 function Page() {
+  const { about } = getLanding();
   return (
     <LandingShell>
       <section className="mx-auto max-w-4xl px-4 py-16 md:px-8 md:py-24">
         <Badge variant="outline" className="mb-4">À propos</Badge>
-        <h1 className="text-4xl font-bold tracking-tight md:text-5xl text-balance">La RH moderne, accessible à toutes les entreprises.</h1>
-        <p className="mt-5 text-lg text-muted-foreground">
-          RHConnect est né d'un constat simple : les outils RH actuels sont soit trop complexes, soit trop limités.
-          Nous avons construit une plateforme qui réunit le meilleur des deux mondes, pour des entreprises
-          de toutes tailles, partout dans le monde.
-        </p>
+        <h1 className="text-4xl font-bold tracking-tight md:text-5xl text-balance">{about.title}</h1>
+        <p className="mt-5 text-lg text-muted-foreground">{about.intro}</p>
 
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {[
-            { icon: Target, title: "Notre mission", desc: "Digitaliser toute la chaîne RH, du recrutement au reporting." },
-            { icon: Heart, title: "Nos valeurs", desc: "Transparence, simplicité, et respect des collaborateurs." },
-            { icon: Globe2, title: "Notre vision", desc: "Devenir la référence RH pour les équipes ambitieuses." },
+            { icon: Target, title: "Notre mission", desc: about.mission },
+            { icon: Heart, title: "Nos valeurs", desc: about.values },
+            { icon: Globe2, title: "Notre vision", desc: about.vision },
           ].map(({ icon: Icon, title, desc }) => (
             <Card key={title} className="bg-card/70 backdrop-blur">
               <CardContent className="p-6">
