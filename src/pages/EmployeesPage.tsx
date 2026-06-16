@@ -13,6 +13,7 @@ import {
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { db, uid } from "@/lib/storage";
 import { useI18n } from "@/lib/i18n";
 import type { Employee } from "@/lib/types";
@@ -186,10 +187,28 @@ function EmployeesPage() {
                     <Badge variant={e.status === "active" ? "default" : "outline"}>{e.status}</Badge>
                   </td>
                   <td className="p-3 text-right">
-                    <Button size="icon" variant="ghost" onClick={() => openEdit(e)} title={t.edit} aria-label={t.edit}><Pencil className="h-4 w-4" /></Button>
-                    <Button size="icon" variant="ghost" asChild title="Voir" aria-label="Voir">
-                      <Link to="/employees/$id" params={{ id: e.id }}><Eye className="h-4 w-4" /></Link>
-                    </Button>
+                    <div className="inline-flex items-center gap-1">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button size="icon" variant="ghost" onClick={() => openEdit(e)} aria-label={`${t.edit} ${e.firstName} ${e.lastName}`}>
+                            <Pencil className="h-4 w-4" aria-hidden="true" />
+                            <span className="sr-only">{t.edit}</span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top">{t.edit}</TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button size="icon" variant="ghost" asChild aria-label={`Voir la fiche de ${e.firstName} ${e.lastName}`}>
+                            <Link to="/employees/$id" params={{ id: e.id }}>
+                              <Eye className="h-4 w-4" aria-hidden="true" />
+                              <span className="sr-only">Voir la fiche</span>
+                            </Link>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="top">Voir la fiche</TooltipContent>
+                      </Tooltip>
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -15,6 +15,7 @@ import { AuthProvider } from "../lib/auth";
 import { I18nProvider } from "../lib/i18n";
 import { ThemeProvider } from "../lib/theme";
 import { Toaster } from "../components/ui/sonner";
+import { TooltipProvider } from "../components/ui/tooltip";
 
 function NotFoundComponent() {
   return (
@@ -123,8 +124,10 @@ function RootComponent() {
       <ThemeProvider>
         <I18nProvider>
           <AuthProvider>
-            <Outlet />
-            <Toaster richColors position="top-right" />
+            <TooltipProvider delayDuration={150}>
+              <Outlet />
+              <Toaster richColors position="top-right" />
+            </TooltipProvider>
           </AuthProvider>
         </I18nProvider>
       </ThemeProvider>
