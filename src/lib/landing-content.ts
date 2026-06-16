@@ -1,5 +1,9 @@
 // Editable landing/marketing content (managed by super_admin)
-const KEY = "hr.landingContent";
+// Two stores: a published version (used by the public pages) and a draft
+// version (edited in the admin console). The draft must be explicitly
+// published before it is visible on the public site.
+const KEY_PUBLISHED = "hr.landingContent";
+const KEY_DRAFT = "hr.landingContent.draft";
 
 export interface LandingPlan {
   name: string;
@@ -52,28 +56,71 @@ export const DEFAULT_LANDING: LandingContent = {
   },
 };
 
-export function getLanding(): LandingContent {
-  if (typeof window === "undefined") return DEFAULT_LANDING;
+function merge(parsed: Partial<LandingContent> | null | undefined): LandingContent {
+  if (!parsed) return DEFAULT_LANDING;
+  return {
+    hero: { ...DEFAULT_LANDING.hero, ...(parsed.hero ?? {}) },
+    about: { ...DEFAULT_LANDING.about, ...(parsed.about ?? {}) },
+    contact: { ...DEFAULT_LANDING.contact, ...(parsed.contact ?? {}) },
+    pricing: {
+      ...DEFAULT_LANDING.pricing,
+      ...(parsed.pricing ?? {}),
+      plans: parsed.pricing?.plans?.length ? parsed.pricing.plans : DEFAULT_LANDING.pricing.plans,
+    },
+  };
+}
+
+function readKey(key: string): LandingContent | null {
+  if (typeof window === "undefined") return null;
   try {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) return DEFAULT_LANDING;
-    const parsed = JSON.parse(raw) as Partial<LandingContent>;
-    return {
-      hero: { ...DEFAULT_LANDING.hero, ...(parsed.hero ?? {}) },
-      about: { ...DEFAULT_LANDING.about, ...(parsed.about ?? {}) },
-      contact: { ...DEFAULT_LANDING.contact, ...(parsed.contact ?? {}) },
-      pricing: {
-        ...DEFAULT_LANDING.pricing,
-        ...(parsed.pricing ?? {}),
-        plans: parsed.pricing?.plans?.length ? parsed.pricing.plans : DEFAULT_LANDING.pricing.plans,
-      },
-    };
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    return merge(JSON.parse(raw) as Partial<LandingContent>);
   } catch {
-    return DEFAULT_LANDING;
+    return null;
   }
 }
 
-export function saveLanding(v: LandingContent) {
+/** Returns the PUBLISHED version (what visitors see). */
+export function getLanding(): LandingContent {
+  return readKey(KEY_PUBLISHED) ?? DEFAULT_LANDING;
+}
+
+/** Returns the DRAFT version. Falls back to published, then default. */
+export function getLandingDraft(): LandingContent {
+  return readKey(KEY_DRAFT) ?? readKey(KEY_PUBLISHED) ?? DEFAULT_LANDING;
+}
+
+/** Save a draft (NOT visible on public pages until publish). */
+export function saveLandingDraft(v: LandingContent) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(KEY, JSON.stringify(v));
+  localStorage.setItem(KEY_DRAFT, JSON.stringify(v));
+}
+
+/** Publish the given content (or the current draft if omitted). */
+export function publishLanding(v?: LandingContent) {
+  if (typeof window === "undefined") return;
+  const draft = v ?? getLandingDraft();
+  localStorage.setItem(KEY_PUBLISHED, JSON.stringify(draft));
+  localStorage.removeItem(KEY_DRAFT);
+}
+
+/** Discard the current draft (revert editor to published). */
+export function discardLandingDraft() {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(KEY_DRAFT);
+}
+
+/** Whether the draft differs from the published version. */
+export function hasUnpublishedChanges(): boolean {
+  if (typeof window === "undefined") return false;
+  const d = localStorage.getItem(KEY_DRAFT);
+  if (!d) return false;
+  const p = localStorage.getItem(KEY_PUBLISHED);
+  return d !== p;
+}
+
+// Backwards-compat: older code that called saveLanding() now writes & publishes.
+export function saveLanding(v: LandingContent) {
+  publishLanding(v);
 }
