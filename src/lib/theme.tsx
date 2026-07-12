@@ -4,11 +4,11 @@ type Theme = "light" | "dark";
 const Ctx = createContext<{ theme: Theme; toggle: () => void } | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    const stored = typeof window !== "undefined" ? localStorage.getItem("hr.theme") : null;
-    const initial: Theme = stored === "dark" || stored === "light" ? stored : "light";
+    const stored = typeof window !== "undefined" ? localStorage.getItem("portfolio.theme") : null;
+    const initial: Theme = stored === "light" ? "light" : "dark";
     setTheme(initial);
     document.documentElement.classList.toggle("dark", initial === "dark");
   }, []);
@@ -17,7 +17,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setTheme((prev) => {
       const next: Theme = prev === "dark" ? "light" : "dark";
       document.documentElement.classList.toggle("dark", next === "dark");
-      if (typeof window !== "undefined") localStorage.setItem("hr.theme", next);
+      if (typeof window !== "undefined") localStorage.setItem("portfolio.theme", next);
       return next;
     });
   };
