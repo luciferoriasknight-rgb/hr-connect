@@ -6,12 +6,14 @@ import ContactForm from "@/components/ContactForm";
 // Real brand icons — Simple Icons
 import {
   SiReact, SiNextdotjs, SiTypescript, SiJavascript, SiTailwindcss, SiBootstrap,
-  SiHtml5, SiCss3, SiAngular, SiNodedotjs, SiExpress, SiNestjs, SiLaravel, SiPhp,
+  SiHtml5, SiCss, SiAngular, SiNodedotjs, SiExpress, SiNestjs, SiLaravel, SiPhp,
   SiPython, SiCplusplus, SiPrisma, SiExpo, SiIonic, SiAndroidstudio, SiPostgresql,
-  SiMysql, SiSqlite, SiMongodb, SiRedis, SiFirebase, SiVercel, SiNetlify, SiHeroku,
-  SiDocker, SiGit, SiLinux, SiSupabase, SiCloudinary, SiStripe, SiResend, SiOpenai,
-  SiFigma, SiGithub, SiLinkedin, SiWhatsapp, SiX, SiFacebook, SiInstagram,
+  SiMysql, SiSqlite, SiMongodb, SiRedis, SiFirebase, SiVercel, SiNetlify,
+  SiDocker, SiGit, SiLinux, SiSupabase, SiCloudinary, SiStripe, SiResend,
+  SiFigma, SiGithub, SiWhatsapp, SiX, SiFacebook, SiInstagram,
 } from "react-icons/si";
+import { FaHeroku, FaLinkedinIn } from "react-icons/fa";
+import { RiOpenaiFill } from "react-icons/ri";
 import {
   FiMapPin, FiLink, FiUsers, FiDownload, FiPhone, FiMail, FiExternalLink,
   FiCode, FiCoffee, FiHeadphones, FiBookOpen, FiCamera, FiZap, FiTarget,
