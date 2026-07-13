@@ -13,8 +13,9 @@ import {
   SiFigma, SiGithub, SiWhatsapp, SiX, SiFacebook, SiInstagram,
 } from "react-icons/si";
 import { FaLinkedinIn } from "react-icons/fa";
-import { SiHeroku as FaHeroku } from "react-icons/si";
 import { RiOpenaiFill } from "react-icons/ri";
+import { TbCloudUpload } from "react-icons/tb";
+const FaHeroku = TbCloudUpload;
 import {
   FiMapPin, FiLink, FiUsers, FiDownload, FiPhone, FiMail, FiExternalLink,
   FiCode, FiCoffee, FiHeadphones, FiBookOpen, FiCamera, FiZap, FiTarget,
