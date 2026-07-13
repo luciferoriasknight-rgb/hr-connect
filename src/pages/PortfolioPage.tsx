@@ -12,7 +12,8 @@ import {
   SiDocker, SiGit, SiLinux, SiSupabase, SiCloudinary, SiStripe, SiResend,
   SiFigma, SiGithub, SiWhatsapp, SiX, SiFacebook, SiInstagram,
 } from "react-icons/si";
-import { FaHeroku, FaLinkedinIn } from "react-icons/fa";
+import { FaLinkedinIn } from "react-icons/fa";
+import { SiHeroku as FaHeroku } from "react-icons/si";
 import { RiOpenaiFill } from "react-icons/ri";
 import {
   FiMapPin, FiLink, FiUsers, FiDownload, FiPhone, FiMail, FiExternalLink,
@@ -29,7 +30,7 @@ const skillGroups = [
     title: "Front-End",
     items: [
       { name: "HTML5", color: "#E34F26", Icon: SiHtml5 },
-      { name: "CSS3", color: "#1572B6", Icon: SiCss3 },
+      { name: "CSS3", color: "#1572B6", Icon: SiCss },
       { name: "JavaScript", color: "#F7DF1E", Icon: SiJavascript },
       { name: "TypeScript", color: "#3178c6", Icon: SiTypescript },
       { name: "React", color: "#61DAFB", Icon: SiReact },
@@ -77,7 +78,7 @@ const skillGroups = [
     items: [
       { name: "Vercel", color: "#ffffff", Icon: SiVercel },
       { name: "Netlify", color: "#00C7B7", Icon: SiNetlify },
-      { name: "Heroku", color: "#a394d4", Icon: SiHeroku },
+      { name: "Heroku", color: "#a394d4", Icon: FaHeroku },
       { name: "Docker", color: "#2496ED", Icon: SiDocker },
       { name: "Git", color: "#F05032", Icon: SiGit },
       { name: "GitHub", color: "#ffffff", Icon: SiGithub },
@@ -91,7 +92,7 @@ const skillGroups = [
       { name: "Cloudinary", color: "#3448C5", Icon: SiCloudinary },
       { name: "Stripe", color: "#635BFF", Icon: SiStripe },
       { name: "Resend", color: "#ffffff", Icon: SiResend },
-      { name: "OpenAI", color: "#10A37F", Icon: SiOpenai },
+      { name: "OpenAI", color: "#10A37F", Icon: RiOpenaiFill },
       { name: "Figma", color: "#F24E1E", Icon: SiFigma },
     ],
   },
@@ -156,7 +157,7 @@ const hobbies = [
 
 const socials = [
   { label: "GitHub", href: "https://github.com/Lord-Coding", color: "#ffffff", bg: "#24292f", Icon: SiGithub },
-  { label: "LinkedIn", href: "https://linkedin.com/in/lord-coding", color: "#ffffff", bg: "#0A66C2", Icon: SiLinkedin },
+  { label: "LinkedIn", href: "https://linkedin.com/in/lord-coding", color: "#ffffff", bg: "#0A66C2", Icon: FaLinkedinIn },
   { label: "WhatsApp", href: "https://wa.me/242064335097", color: "#ffffff", bg: "#25D366", Icon: SiWhatsapp },
   { label: "Twitter / X", href: "https://x.com/Lord_Coding", color: "#ffffff", bg: "#000000", Icon: SiX },
   { label: "Instagram", href: "https://instagram.com/lord.coding", color: "#ffffff", bg: "linear-gradient(135deg,#F58529,#DD2A7B,#8134AF)", Icon: SiInstagram },
