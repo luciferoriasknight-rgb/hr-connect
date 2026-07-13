@@ -1,0 +1,14 @@
+{
+  "name": "OLA Victoria Dicone — Lord-Coding",
+  "short_name": "Lord-Coding",
+  "description": "Portfolio du développeur fullstack OLA Victoria Dicone.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "any", "type": "image/x-icon" }
+  ]
+}
