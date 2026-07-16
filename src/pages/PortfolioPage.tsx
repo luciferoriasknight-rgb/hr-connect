@@ -305,9 +305,35 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                 </div>
               </div>
 
+              {project.screenshots && project.screenshots.length > 0 && (
+                <div className="mt-5">
+                  <h4 className="mb-2 text-[11px] font-bold uppercase tracking-widest text-[#7ee787]">Captures</h4>
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {project.screenshots.map((src, idx) => (
+                      <button
+                        key={src + idx}
+                        type="button"
+                        onClick={() => setLightboxIndex(idx)}
+                        aria-label={`Ouvrir la capture ${idx + 1} en plein écran`}
+                        className="group relative aspect-video overflow-hidden rounded-md border border-[#30363d] bg-[#161b22] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1f6feb]"
+                      >
+                        <img
+                          src={src}
+                          alt={`${project.title} — capture ${idx + 1}`}
+                          loading="lazy"
+                          decoding="async"
+                          className="h-full w-full object-cover transition group-hover:scale-105"
+                        />
+                        <span className="absolute inset-0 grid place-items-center bg-black/0 text-white opacity-0 transition group-hover:bg-black/40 group-hover:opacity-100">
+                          <FiImage className="h-5 w-5" aria-hidden="true" />
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="mt-5 flex flex-wrap gap-2">
-                {project.github && (
-                  <a href={project.github} target="_blank" rel="noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-md border border-[#30363d] bg-[#21262d] px-3 py-2 text-sm font-semibold text-white hover:bg-[#30363d]">
                     <FiGithub className="h-4 w-4" /> Code source
                   </a>
