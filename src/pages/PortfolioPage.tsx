@@ -453,7 +453,7 @@ export default function PortfolioPage() {
               <p className="text-base text-[#7d8590] sm:text-lg">Lord-Coding · he/him</p>
             </div>
 
-            <p className="text-[14px] sm:text-[15px]">Développeur Fullstack — Licence Informatique (Génie Logiciel). Web & mobile, de l'UI à l'API. 🚀</p>
+            <p className="text-[14px] sm:text-[15px]">Je construis des expériences web & mobiles claires, rapides et bien pensées — du premier pixel à la mise en production.</p>
 
             <a href="/cv-lord.pdf" download aria-label="Télécharger le CV au format PDF"
               className="flex w-full items-center justify-center gap-2 rounded-md border border-[#30363d] bg-[#21262d] py-2 text-sm font-medium text-white transition hover:bg-[#30363d]">
