@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Player } from "@lottiefiles/react-lottie-player";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ComponentType } from "react";
 import avatarUrl from "@/assets/avatar.jpg";
 import ContactForm from "@/components/ContactForm";
+import LazyLottie from "@/components/LazyLottie";
+import Lightbox from "@/components/Lightbox";
 
 import {
   SiReact, SiNextdotjs, SiTypescript, SiJavascript, SiTailwindcss, SiBootstrap,
@@ -19,8 +20,9 @@ import {
   FiMapPin, FiLink, FiUsers, FiDownload, FiPhone, FiMail, FiExternalLink,
   FiCode, FiCoffee, FiTarget, FiTrendingUp, FiAward, FiBriefcase,
   FiChevronRight, FiUser, FiUsers as FiUsersDup, FiGithub, FiX, FiGlobe, FiFilter,
+  FiHeart, FiShoppingCart, FiBookOpen, FiLayout, FiImage,
 } from "react-icons/fi";
-import { HiOutlineSparkles, HiOutlineLightBulb } from "react-icons/hi";
+import { HiOutlineLightBulb, HiOutlineSparkles } from "react-icons/hi";
 import { IoRocketOutline, IoSchoolOutline } from "react-icons/io5";
 
 /* ------------------------------- Data ----------------------------------- */
