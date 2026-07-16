@@ -262,7 +262,13 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
           >
             <div className="flex items-start justify-between gap-3 border-b border-[#21262d] p-4 sm:p-5">
               <div className="flex min-w-0 items-start gap-3">
-                <span className="text-3xl" aria-hidden="true">{project.emoji}</span>
+                <span
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-xl ring-1 ring-[#30363d]"
+                  style={{ background: `${project.iconColor}22`, color: project.iconColor }}
+                  aria-hidden="true"
+                >
+                  <project.Icon className="h-5 w-5" />
+                </span>
                 <div className="min-w-0">
                   <h3 id="project-modal-title" className="truncate text-lg font-bold text-white sm:text-xl">{project.title}</h3>
                   <p className="mt-0.5 font-mono text-xs text-[#7d8590]">
