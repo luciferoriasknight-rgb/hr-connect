@@ -111,41 +111,45 @@ const timeline: {
 
 type ProjectType = "personal" | "collab";
 type Project = {
-  emoji: string; title: string; desc: string; longDesc: string; role: string;
+  Icon: ComponentType<{ className?: string }>;
+  iconColor: string;
+  title: string; desc: string; longDesc: string; role: string;
   stack: string[]; href: string; github?: string; live?: string;
   type: ProjectType; year: string;
+  screenshots?: string[];
 };
 
 const projects: Project[] = [
-  { emoji: "🎓", title: "CFI Link", desc: "Étudiants ↔ opportunités du CFI-CIRAS.",
+  { Icon: IoSchoolOutline, iconColor: "#58a6ff", title: "CFI Link", desc: "Étudiants ↔ opportunités du CFI-CIRAS.",
     longDesc: "Plateforme web/mobile reliant les étudiants du CFI-CIRAS aux opportunités professionnelles : offres de stage, alternances et premiers emplois. Système de matching, profils enrichis et messagerie interne.",
     role: "Développeur fullstack (front + API)", stack: ["React", "Ionic", "Laravel", "MySQL"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "collab", year: "2024" },
-  { emoji: "🛒", title: "Order Deal", desc: "Suivi et gestion des commandes avec deals.",
+  { Icon: FiShoppingCart, iconColor: "#e3b341", title: "Order Deal", desc: "Suivi et gestion des commandes avec deals.",
     longDesc: "Application de suivi et gestion de commandes clients avec un module de deals et promotions temporelles, gestion des statuts et tableau de bord marchand.",
     role: "Développeur solo", stack: ["React", "Node.js", "Express", "MongoDB"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "personal", year: "2024" },
-  { emoji: "👥", title: "RH Connect", desc: "Recrutement RH — candidats & recruteurs.",
+  { Icon: FiUsers, iconColor: "#bc8cff", title: "RH Connect", desc: "Recrutement RH — candidats & recruteurs.",
     longDesc: "Outil RH orienté candidats et recruteurs : dépôt de CV, offres d'emploi, pipeline de sélection, entretiens et notifications.",
     role: "Développeur fullstack", stack: ["Laravel", "React", "MySQL", "Tailwind"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "personal", year: "2023" },
-  { emoji: "🏢", title: "Zola-Kimya", desc: "Site institutionnel de l'entreprise.",
+  { Icon: FiBriefcase, iconColor: "#7ee787", title: "Zola-Kimya", desc: "Site institutionnel de l'entreprise.",
     longDesc: "Site institutionnel présentant la mission, les activités, l'équipe et les services de Zola-Kimya. SEO, formulaires de contact et back-office léger.",
     role: "Développeur front + intégration", stack: ["React", "Tailwind", "MySQL"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "collab", year: "2024" },
-  { emoji: "🧑‍💼", title: "Profil RH", desc: "Profils, congés, évaluations, effectifs.",
+  { Icon: FiUser, iconColor: "#f0883e", title: "Profil RH", desc: "Profils, congés, évaluations, effectifs.",
     longDesc: "Application RH complète : gestion des profils employés, demandes de congés, évaluations de performance et suivi des effectifs avec rôles et permissions.",
     role: "Développeur fullstack", stack: ["React", "Node.js", "PostgreSQL", "Prisma"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "collab", year: "2023" },
-  { emoji: "❤️", title: "Bénédicte ONG", desc: "Présentation + collecte de dons pour l'ONG.",
+  { Icon: FiHeart, iconColor: "#ff7b72", title: "Bénédicte ONG", desc: "Présentation + collecte de dons pour l'ONG.",
     longDesc: "Site vitrine et plateforme de collecte de dons pour l'ONG Bénédicte : présentation des actions, campagnes, paiements sécurisés et suivi transparent.",
     role: "Développeur solo", stack: ["React", "Next.js", "Tailwind", "Stripe"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "personal", year: "2023" },
-  { emoji: "🎨", title: "Portfolio Lord-Coding", desc: "Ce portfolio — React + TanStack.",
+  { Icon: FiLayout, iconColor: "#7ee787", title: "Portfolio Lord-Coding", desc: "Ce portfolio — React + TanStack.",
     longDesc: "Portfolio personnel construit avec React, TanStack Start, Tailwind et Framer Motion. PWA installable et cache offline via service worker.",
     role: "Concepteur & développeur", stack: ["React", "TanStack", "Tailwind", "Framer Motion"],
-    href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", live: "/", type: "personal", year: "2025" },
-  { emoji: "📚", title: "Study Hub", desc: "Ressources académiques et TD partagés.",
+    href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", live: "/", type: "personal", year: "2025",
+    screenshots: [avatarUrl] },
+  { Icon: FiBookOpen, iconColor: "#58a6ff", title: "Study Hub", desc: "Ressources académiques et TD partagés.",
     longDesc: "Espace collaboratif de partage de ressources académiques, travaux dirigés et corrections, avec authentification et modération.",
     role: "Développeur solo", stack: ["Next.js", "Supabase", "Tailwind"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "personal", year: "2023" },
