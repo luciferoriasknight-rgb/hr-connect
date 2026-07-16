@@ -234,6 +234,7 @@ function Marquee({ children, duration = 30, reverse = false }: { children: React
 /* -------------------------- Project detail modal ------------------------ */
 
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   useEffect(() => {
     if (!project) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
