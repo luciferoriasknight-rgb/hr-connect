@@ -104,6 +104,7 @@ function RootComponent() {
       <ThemeProvider>
         <TooltipProvider delayDuration={150}>
           <Outlet />
+          <InstallPrompt />
           <Toaster richColors position="top-right" />
         </TooltipProvider>
       </ThemeProvider>
