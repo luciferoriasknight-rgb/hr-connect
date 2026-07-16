@@ -355,6 +355,14 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
           </motion.div>
         </motion.div>
       )}
+      {project && lightboxIndex !== null && project.screenshots && (
+        <Lightbox
+          images={project.screenshots}
+          startIndex={lightboxIndex}
+          title={project.title}
+          onClose={() => setLightboxIndex(null)}
+        />
+      )}
     </AnimatePresence>
   );
 }
