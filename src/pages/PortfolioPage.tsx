@@ -334,6 +334,8 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
               )}
 
               <div className="mt-5 flex flex-wrap gap-2">
+                {project.github && (
+                  <a href={project.github} target="_blank" rel="noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-md border border-[#30363d] bg-[#21262d] px-3 py-2 text-sm font-semibold text-white hover:bg-[#30363d]">
                     <FiGithub className="h-4 w-4" /> Code source
                   </a>
