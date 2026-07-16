@@ -437,14 +437,14 @@ export default function PortfolioPage() {
           <aside className="space-y-4 sm:space-y-5" aria-label="Profil">
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} className="relative mx-auto w-40 sm:w-56 md:w-full md:max-w-[300px]">
               <div className="overflow-hidden rounded-full ring-1 ring-[#30363d]">
-                <img src={avatarUrl} alt="Portrait d'OLA Victoria Dicone (Lord-Coding)" width={300} height={300} className="aspect-square w-full object-cover" />
+                <img src={avatarUrl} alt="Portrait d'OLA Victoria Dicone (Lord-Coding)" width={300} height={300} loading="lazy" decoding="async" className="aspect-square w-full object-cover" />
               </div>
               <motion.span
                 aria-label="Statut : disponible"
                 animate={{ scale: [1, 1.15, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="absolute bottom-2 right-2 h-5 w-5 rounded-full border-4 border-[#0d1117] md:bottom-3 md:right-3 md:h-6 md:w-6"
-                style={{ background: "#3fb950" }}
+                className="absolute bottom-[8%] right-[8%] h-4 w-4 rounded-full border-[3px] border-[#0d1117] sm:h-5 sm:w-5 md:h-6 md:w-6 md:border-4"
+                style={{ background: "#3fb950", boxShadow: "0 0 0 2px rgba(63,185,80,0.35)" }}
               />
             </motion.div>
 
