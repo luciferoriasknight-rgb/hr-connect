@@ -528,15 +528,16 @@ export default function PortfolioPage() {
                 </motion.div>
 
                 <Section id="about" icon={HiOutlineSparkles} title="À propos" kicker="Qui suis-je">
-                  <p className="italic text-[#7d8590]">🇨🇬 Pointe-Noire · 🎧 Curieux · 💻 Rigoureux</p>
+                  <p className="italic text-[#7d8590]">Basé à Pointe-Noire · Fullstack · Toujours en train d'apprendre</p>
                   <p className="mt-2">
-                    Originaire et résidant à <span className="font-semibold text-white">Pointe-Noire, République du Congo</span>,
-                    récemment diplômé au CFI-CIRAS. Actuellement <span className="font-semibold text-white">stagiaire chez Zola-Kimya</span>,
-                    je contribue à la conception et au développement de plateformes web/mobiles aux côtés d'une équipe agile.
+                    Je m'appelle Victoria — et je passe mes journées à transformer des idées en produits
+                    qui tournent vraiment. Web ou mobile, front ou back, j'aime toute la chaîne :
+                    comprendre le besoin, dessiner l'interface, écrire l'API, mettre en ligne.
                   </p>
                   <p className="mt-3">
-                    Mon obsession : livrer des produits <span className="font-semibold text-white">rapides, accessibles et maintenables</span>.
-                    Je pense architecture avant de coder, je teste avant d'expédier, et je m'attache aux détails d'UX qui font la différence.
+                    Ce qui me motive, c'est de faire simple là où c'est possible et solide là où ça compte —
+                    livrer des choses <span className="font-semibold text-white">nettes, agréables à utiliser</span>
+                    et faciles à faire évoluer par la suite.
                   </p>
 
                   <div className="mt-5 grid grid-cols-2 gap-2.5 sm:gap-3 md:grid-cols-4">
