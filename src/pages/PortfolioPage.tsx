@@ -574,23 +574,6 @@ export default function PortfolioPage() {
           </div>
 
           <div className="p-4 sm:p-6 md:p-10">
-            <Section icon={HiOutlineSparkles} title="Compétences clés" kicker="Expertise">
-              <div className="grid gap-4 md:grid-cols-2">
-                {coreSkills.map((s) => (
-                  <div key={s.label}>
-                    <div className="mb-1 flex justify-between text-xs">
-                      <span className="text-[#c9d1d9]">{s.label}</span>
-                      <span className="text-[#7d8590]">{s.value}%</span>
-                    </div>
-                    <div className="h-2 w-full overflow-hidden rounded-full bg-[#161b22]" role="progressbar" aria-valuenow={s.value} aria-valuemin={0} aria-valuemax={100} aria-label={s.label}>
-                      <motion.div initial={{ width: 0 }} whileInView={{ width: `${s.value}%` }} viewport={{ once: true }} transition={{ duration: 1, ease: "easeOut" }}
-                        className="h-full rounded-full" style={{ background: `linear-gradient(90deg, ${s.color}, ${s.color}aa)` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Section>
-
             <Section id="stack" icon={FiCode} title="Stack de développement" kicker="Boîte à outils">
               <p className="mb-6">Chaque catégorie défile en boucle — survole pour explorer.</p>
               <div className="space-y-5 sm:space-y-6">
