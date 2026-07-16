@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Player } from "@lottiefiles/react-lottie-player";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ComponentType } from "react";
 import avatarUrl from "@/assets/avatar.jpg";
 import ContactForm from "@/components/ContactForm";
+import LazyLottie from "@/components/LazyLottie";
+import Lightbox from "@/components/Lightbox";
 
 import {
   SiReact, SiNextdotjs, SiTypescript, SiJavascript, SiTailwindcss, SiBootstrap,
@@ -19,8 +20,9 @@ import {
   FiMapPin, FiLink, FiUsers, FiDownload, FiPhone, FiMail, FiExternalLink,
   FiCode, FiCoffee, FiTarget, FiTrendingUp, FiAward, FiBriefcase,
   FiChevronRight, FiUser, FiUsers as FiUsersDup, FiGithub, FiX, FiGlobe, FiFilter,
+  FiHeart, FiShoppingCart, FiBookOpen, FiLayout, FiImage,
 } from "react-icons/fi";
-import { HiOutlineSparkles, HiOutlineLightBulb } from "react-icons/hi";
+import { HiOutlineLightBulb, HiOutlineSparkles } from "react-icons/hi";
 import { IoRocketOutline, IoSchoolOutline } from "react-icons/io5";
 
 /* ------------------------------- Data ----------------------------------- */
@@ -80,13 +82,6 @@ const skillGroups = [
   ]},
 ] as const;
 
-const coreSkills = [
-  { label: "Développement Front-End", value: 92, color: "#61DAFB" },
-  { label: "Développement Back-End", value: 85, color: "#3C873A" },
-  { label: "Mobile (React Native / Ionic)", value: 78, color: "#38BDF8" },
-  { label: "UI / UX Design", value: 74, color: "#F24E1E" },
-  { label: "DevOps & Cloud", value: 65, color: "#2496ED" },
-];
 
 type TimelineKind = "work" | "edu" | "project" | "award";
 const timeline: {
@@ -109,41 +104,45 @@ const timeline: {
 
 type ProjectType = "personal" | "collab";
 type Project = {
-  emoji: string; title: string; desc: string; longDesc: string; role: string;
+  Icon: ComponentType<{ className?: string }>;
+  iconColor: string;
+  title: string; desc: string; longDesc: string; role: string;
   stack: string[]; href: string; github?: string; live?: string;
   type: ProjectType; year: string;
+  screenshots?: string[];
 };
 
 const projects: Project[] = [
-  { emoji: "🎓", title: "CFI Link", desc: "Étudiants ↔ opportunités du CFI-CIRAS.",
+  { Icon: IoSchoolOutline, iconColor: "#58a6ff", title: "CFI Link", desc: "Étudiants ↔ opportunités du CFI-CIRAS.",
     longDesc: "Plateforme web/mobile reliant les étudiants du CFI-CIRAS aux opportunités professionnelles : offres de stage, alternances et premiers emplois. Système de matching, profils enrichis et messagerie interne.",
     role: "Développeur fullstack (front + API)", stack: ["React", "Ionic", "Laravel", "MySQL"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "collab", year: "2024" },
-  { emoji: "🛒", title: "Order Deal", desc: "Suivi et gestion des commandes avec deals.",
+  { Icon: FiShoppingCart, iconColor: "#e3b341", title: "Order Deal", desc: "Suivi et gestion des commandes avec deals.",
     longDesc: "Application de suivi et gestion de commandes clients avec un module de deals et promotions temporelles, gestion des statuts et tableau de bord marchand.",
     role: "Développeur solo", stack: ["React", "Node.js", "Express", "MongoDB"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "personal", year: "2024" },
-  { emoji: "👥", title: "RH Connect", desc: "Recrutement RH — candidats & recruteurs.",
+  { Icon: FiUsers, iconColor: "#bc8cff", title: "RH Connect", desc: "Recrutement RH — candidats & recruteurs.",
     longDesc: "Outil RH orienté candidats et recruteurs : dépôt de CV, offres d'emploi, pipeline de sélection, entretiens et notifications.",
     role: "Développeur fullstack", stack: ["Laravel", "React", "MySQL", "Tailwind"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "personal", year: "2023" },
-  { emoji: "🏢", title: "Zola-Kimya", desc: "Site institutionnel de l'entreprise.",
+  { Icon: FiBriefcase, iconColor: "#7ee787", title: "Zola-Kimya", desc: "Site institutionnel de l'entreprise.",
     longDesc: "Site institutionnel présentant la mission, les activités, l'équipe et les services de Zola-Kimya. SEO, formulaires de contact et back-office léger.",
     role: "Développeur front + intégration", stack: ["React", "Tailwind", "MySQL"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "collab", year: "2024" },
-  { emoji: "🧑‍💼", title: "Profil RH", desc: "Profils, congés, évaluations, effectifs.",
+  { Icon: FiUser, iconColor: "#f0883e", title: "Profil RH", desc: "Profils, congés, évaluations, effectifs.",
     longDesc: "Application RH complète : gestion des profils employés, demandes de congés, évaluations de performance et suivi des effectifs avec rôles et permissions.",
     role: "Développeur fullstack", stack: ["React", "Node.js", "PostgreSQL", "Prisma"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "collab", year: "2023" },
-  { emoji: "❤️", title: "Bénédicte ONG", desc: "Présentation + collecte de dons pour l'ONG.",
+  { Icon: FiHeart, iconColor: "#ff7b72", title: "Bénédicte ONG", desc: "Présentation + collecte de dons pour l'ONG.",
     longDesc: "Site vitrine et plateforme de collecte de dons pour l'ONG Bénédicte : présentation des actions, campagnes, paiements sécurisés et suivi transparent.",
     role: "Développeur solo", stack: ["React", "Next.js", "Tailwind", "Stripe"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "personal", year: "2023" },
-  { emoji: "🎨", title: "Portfolio Lord-Coding", desc: "Ce portfolio — React + TanStack.",
+  { Icon: FiLayout, iconColor: "#7ee787", title: "Portfolio Lord-Coding", desc: "Ce portfolio — React + TanStack.",
     longDesc: "Portfolio personnel construit avec React, TanStack Start, Tailwind et Framer Motion. PWA installable et cache offline via service worker.",
     role: "Concepteur & développeur", stack: ["React", "TanStack", "Tailwind", "Framer Motion"],
-    href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", live: "/", type: "personal", year: "2025" },
-  { emoji: "📚", title: "Study Hub", desc: "Ressources académiques et TD partagés.",
+    href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", live: "/", type: "personal", year: "2025",
+    screenshots: [avatarUrl] },
+  { Icon: FiBookOpen, iconColor: "#58a6ff", title: "Study Hub", desc: "Ressources académiques et TD partagés.",
     longDesc: "Espace collaboratif de partage de ressources académiques, travaux dirigés et corrections, avec authentification et modération.",
     role: "Développeur solo", stack: ["Next.js", "Supabase", "Tailwind"],
     href: "https://github.com/Lord-Coding", github: "https://github.com/Lord-Coding", type: "personal", year: "2023" },
@@ -228,6 +227,7 @@ function Marquee({ children, duration = 30, reverse = false }: { children: React
 /* -------------------------- Project detail modal ------------------------ */
 
 function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   useEffect(() => {
     if (!project) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -256,7 +256,13 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
           >
             <div className="flex items-start justify-between gap-3 border-b border-[#21262d] p-4 sm:p-5">
               <div className="flex min-w-0 items-start gap-3">
-                <span className="text-3xl" aria-hidden="true">{project.emoji}</span>
+                <span
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-xl ring-1 ring-[#30363d]"
+                  style={{ background: `${project.iconColor}22`, color: project.iconColor }}
+                  aria-hidden="true"
+                >
+                  <project.Icon className="h-5 w-5" />
+                </span>
                 <div className="min-w-0">
                   <h3 id="project-modal-title" className="truncate text-lg font-bold text-white sm:text-xl">{project.title}</h3>
                   <p className="mt-0.5 font-mono text-xs text-[#7d8590]">
@@ -292,6 +298,34 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
                 </div>
               </div>
 
+              {project.screenshots && project.screenshots.length > 0 && (
+                <div className="mt-5">
+                  <h4 className="mb-2 text-[11px] font-bold uppercase tracking-widest text-[#7ee787]">Captures</h4>
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {project.screenshots.map((src, idx) => (
+                      <button
+                        key={src + idx}
+                        type="button"
+                        onClick={() => setLightboxIndex(idx)}
+                        aria-label={`Ouvrir la capture ${idx + 1} en plein écran`}
+                        className="group relative aspect-video overflow-hidden rounded-md border border-[#30363d] bg-[#161b22] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1f6feb]"
+                      >
+                        <img
+                          src={src}
+                          alt={`${project.title} — capture ${idx + 1}`}
+                          loading="lazy"
+                          decoding="async"
+                          className="h-full w-full object-cover transition group-hover:scale-105"
+                        />
+                        <span className="absolute inset-0 grid place-items-center bg-black/0 text-white opacity-0 transition group-hover:bg-black/40 group-hover:opacity-100">
+                          <FiImage className="h-5 w-5" aria-hidden="true" />
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="mt-5 flex flex-wrap gap-2">
                 {project.github && (
                   <a href={project.github} target="_blank" rel="noreferrer"
@@ -313,6 +347,14 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
             </div>
           </motion.div>
         </motion.div>
+      )}
+      {project && lightboxIndex !== null && project.screenshots && (
+        <Lightbox
+          images={project.screenshots}
+          startIndex={lightboxIndex}
+          title={project.title}
+          onClose={() => setLightboxIndex(null)}
+        />
       )}
     </AnimatePresence>
   );
@@ -388,14 +430,14 @@ export default function PortfolioPage() {
           <aside className="space-y-4 sm:space-y-5" aria-label="Profil">
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} className="relative mx-auto w-40 sm:w-56 md:w-full md:max-w-[300px]">
               <div className="overflow-hidden rounded-full ring-1 ring-[#30363d]">
-                <img src={avatarUrl} alt="Portrait d'OLA Victoria Dicone (Lord-Coding)" width={300} height={300} className="aspect-square w-full object-cover" />
+                <img src={avatarUrl} alt="Portrait d'OLA Victoria Dicone (Lord-Coding)" width={300} height={300} loading="lazy" decoding="async" className="aspect-square w-full object-cover" />
               </div>
               <motion.span
                 aria-label="Statut : disponible"
                 animate={{ scale: [1, 1.15, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="absolute bottom-2 right-2 h-5 w-5 rounded-full border-4 border-[#0d1117] md:bottom-3 md:right-3 md:h-6 md:w-6"
-                style={{ background: "#3fb950" }}
+                className="absolute bottom-[8%] right-[8%] h-4 w-4 rounded-full border-[3px] border-[#0d1117] sm:h-5 sm:w-5 md:h-6 md:w-6 md:border-4"
+                style={{ background: "#3fb950", boxShadow: "0 0 0 2px rgba(63,185,80,0.35)" }}
               />
             </motion.div>
 
@@ -404,7 +446,7 @@ export default function PortfolioPage() {
               <p className="text-base text-[#7d8590] sm:text-lg">Lord-Coding · he/him</p>
             </div>
 
-            <p className="text-[14px] sm:text-[15px]">Développeur Fullstack — Licence Informatique (Génie Logiciel). Web & mobile, de l'UI à l'API. 🚀</p>
+            <p className="text-[14px] sm:text-[15px]">Je construis des expériences web & mobiles claires, rapides et bien pensées — du premier pixel à la mise en production.</p>
 
             <a href="/cv-lord.pdf" download aria-label="Télécharger le CV au format PDF"
               className="flex w-full items-center justify-center gap-2 rounded-md border border-[#30363d] bg-[#21262d] py-2 text-sm font-medium text-white transition hover:bg-[#30363d]">
@@ -458,8 +500,9 @@ export default function PortfolioPage() {
                       $ whoami — <span className="not-italic text-[#7ee787]">Lord-sama ▌</span>
                     </p>
                     <p className="mt-3 text-[14px] text-[#c9d1d9] sm:text-[15px]">
-                      Développeur fullstack diplômé en Licence Informatique (Génie-Logiciel), je conçois des applications
-                      web et mobiles modernes — de l'interface à l'API. Curieux, rigoureux et obsédé par l'UX. ✨
+                      Je conçois et développe des produits web & mobiles utiles au quotidien : interfaces soignées,
+                      code lisible, performance qui suit. Ma boussole : livrer vite <em>et</em> bien, en gardant l'UX
+                      au centre.
                     </p>
                     <div className="mt-5 flex flex-wrap justify-center gap-2 md:justify-start">
                       <a href="#projets" className="inline-flex items-center gap-1.5 rounded-md bg-[#1f6feb] px-4 py-2 text-sm font-semibold text-white hover:bg-[#388bfd] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#58a6ff]">
@@ -470,21 +513,24 @@ export default function PortfolioPage() {
                       </a>
                     </div>
                   </div>
-                  <div className="mx-auto w-40 sm:w-56 md:w-[260px] lg:w-[280px]" aria-hidden="true">
-                    <Player autoplay loop src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" style={{ height: "100%", width: "100%" }} />
-                  </div>
+                  <LazyLottie
+                    className="mx-auto aspect-square w-40 sm:w-56 md:w-[260px] lg:w-[280px]"
+                    src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json"
+                    ariaLabel="Animation de développement"
+                  />
                 </motion.div>
 
                 <Section id="about" icon={HiOutlineSparkles} title="À propos" kicker="Qui suis-je">
-                  <p className="italic text-[#7d8590]">🇨🇬 Pointe-Noire · 🎧 Curieux · 💻 Rigoureux</p>
+                  <p className="italic text-[#7d8590]">Basé à Pointe-Noire · Fullstack · Toujours en train d'apprendre</p>
                   <p className="mt-2">
-                    Originaire et résidant à <span className="font-semibold text-white">Pointe-Noire, République du Congo</span>,
-                    récemment diplômé au CFI-CIRAS. Actuellement <span className="font-semibold text-white">stagiaire chez Zola-Kimya</span>,
-                    je contribue à la conception et au développement de plateformes web/mobiles aux côtés d'une équipe agile.
+                    Je m'appelle Victoria — et je passe mes journées à transformer des idées en produits
+                    qui tournent vraiment. Web ou mobile, front ou back, j'aime toute la chaîne :
+                    comprendre le besoin, dessiner l'interface, écrire l'API, mettre en ligne.
                   </p>
                   <p className="mt-3">
-                    Mon obsession : livrer des produits <span className="font-semibold text-white">rapides, accessibles et maintenables</span>.
-                    Je pense architecture avant de coder, je teste avant d'expédier, et je m'attache aux détails d'UX qui font la différence.
+                    Ce qui me motive, c'est de faire simple là où c'est possible et solide là où ça compte —
+                    livrer des choses <span className="font-semibold text-white">nettes, agréables à utiliser</span>
+                    et faciles à faire évoluer par la suite.
                   </p>
 
                   <div className="mt-5 grid grid-cols-2 gap-2.5 sm:gap-3 md:grid-cols-4">
@@ -521,23 +567,6 @@ export default function PortfolioPage() {
           </div>
 
           <div className="p-4 sm:p-6 md:p-10">
-            <Section icon={HiOutlineSparkles} title="Compétences clés" kicker="Expertise">
-              <div className="grid gap-4 md:grid-cols-2">
-                {coreSkills.map((s) => (
-                  <div key={s.label}>
-                    <div className="mb-1 flex justify-between text-xs">
-                      <span className="text-[#c9d1d9]">{s.label}</span>
-                      <span className="text-[#7d8590]">{s.value}%</span>
-                    </div>
-                    <div className="h-2 w-full overflow-hidden rounded-full bg-[#161b22]" role="progressbar" aria-valuenow={s.value} aria-valuemin={0} aria-valuemax={100} aria-label={s.label}>
-                      <motion.div initial={{ width: 0 }} whileInView={{ width: `${s.value}%` }} viewport={{ once: true }} transition={{ duration: 1, ease: "easeOut" }}
-                        className="h-full rounded-full" style={{ background: `linear-gradient(90deg, ${s.color}, ${s.color}aa)` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Section>
-
             <Section id="stack" icon={FiCode} title="Stack de développement" kicker="Boîte à outils">
               <p className="mb-6">Chaque catégorie défile en boucle — survole pour explorer.</p>
               <div className="space-y-5 sm:space-y-6">
@@ -566,8 +595,8 @@ export default function PortfolioPage() {
             {/* TIMELINE — mobile vertical chrono / desktop zig-zag */}
             <Section id="parcours" icon={FiTrendingUp} title="Mon parcours" kicker="Timeline">
               <div className="relative">
-                <div className="absolute left-4 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#7ee787] via-[#58a6ff] to-[#e3b341] md:left-1/2 md:-translate-x-1/2" aria-hidden="true" />
-                <ol className="space-y-6 md:space-y-8">
+                <div className="absolute left-5 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#7ee787] via-[#58a6ff] to-[#e3b341] md:left-1/2 md:-translate-x-1/2" aria-hidden="true" />
+                <ol className="space-y-8 md:space-y-12">
                   {timeline.map((t, i) => {
                     const rightSide = i % 2 === 1;
                     return (
@@ -577,14 +606,14 @@ export default function PortfolioPage() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.08, duration: 0.45 }}
-                        className={`relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-10 ${rightSide ? "md:[&>div]:col-start-2" : ""}`}
+                        className={`relative pl-20 md:pl-0 md:grid md:grid-cols-2 md:gap-20 ${rightSide ? "md:[&>div]:col-start-2" : ""}`}
                       >
                         <span
-                          className="absolute left-0 top-2 grid h-9 w-9 place-items-center rounded-full ring-4 ring-[#0d1117] md:left-1/2 md:top-4 md:h-11 md:w-11 md:-translate-x-1/2"
+                          className="absolute left-0 top-2 grid h-11 w-11 place-items-center rounded-full ring-4 ring-[#0d1117] md:left-1/2 md:top-4 md:h-12 md:w-12 md:-translate-x-1/2"
                           style={{ background: `linear-gradient(135deg, ${t.color}, ${t.color}55)` }}
                           aria-hidden="true"
                         >
-                          <t.Icon className="h-4 w-4 text-white md:h-5 md:w-5" />
+                          <t.Icon className="h-5 w-5 text-white" />
                         </span>
 
                         <div
@@ -700,7 +729,13 @@ export default function PortfolioPage() {
                         </span>
 
                         <div className="flex items-start gap-3 pr-16">
-                          <span className="text-2xl" aria-hidden="true">{p.emoji}</span>
+                          <span
+                            className="grid h-10 w-10 shrink-0 place-items-center rounded-xl ring-1 ring-[#30363d]"
+                            style={{ background: `${p.iconColor}22`, color: p.iconColor }}
+                            aria-hidden="true"
+                          >
+                            <p.Icon className="h-5 w-5" />
+                          </span>
                           <div className="min-w-0 flex-1">
                             <p className="truncate font-semibold text-white group-hover:text-[#58a6ff]">{p.title}</p>
                             <p className="mt-0.5 font-mono text-[10px] text-[#7d8590]">{p.year}</p>

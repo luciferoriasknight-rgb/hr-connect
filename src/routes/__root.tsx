@@ -15,6 +15,7 @@ import { ThemeProvider } from "../lib/theme";
 import { Toaster } from "../components/ui/sonner";
 import { TooltipProvider } from "../components/ui/tooltip";
 import { registerServiceWorker } from "../lib/register-sw";
+import InstallPrompt from "../components/InstallPrompt";
 
 function NotFoundComponent() {
   return (
@@ -103,6 +104,7 @@ function RootComponent() {
       <ThemeProvider>
         <TooltipProvider delayDuration={150}>
           <Outlet />
+          <InstallPrompt />
           <Toaster richColors position="top-right" />
         </TooltipProvider>
       </ThemeProvider>

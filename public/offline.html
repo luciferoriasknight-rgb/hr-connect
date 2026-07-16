@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Hors connexion — Lord-Coding</title>
+  <meta name="theme-color" content="#0d1117" />
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body {
+      display: grid; place-items: center;
+      background: radial-gradient(ellipse at top, #161b22, #0d1117 60%);
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+      padding: 24px;
+    }
+    .card {
+      max-width: 460px; width: 100%;
+      background: #0d1117; border: 1px solid #30363d; border-radius: 16px;
+      padding: 32px 24px; text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,.4);
+    }
+    .glyph {
+      width: 64px; height: 64px; margin: 0 auto 16px;
+      display: grid; place-items: center; border-radius: 50%;
+      background: linear-gradient(135deg, #7ee78722, #58a6ff22);
+      border: 1px solid #30363d;
+      font-size: 28px;
+    }
+    h1 { color: #fff; font-size: 22px; margin: 0 0 8px; }
+    p { color: #7d8590; font-size: 14px; line-height: 1.6; margin: 0 0 20px; }
+    .row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    button, a {
+      appearance: none; border: 0; cursor: pointer;
+      padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: 600;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+      transition: filter .15s ease, background .15s ease;
+    }
+    .primary { background: linear-gradient(90deg, #238636, #2ea043); color: #fff; }
+    .primary:hover { filter: brightness(1.1); }
+    .ghost { background: #21262d; color: #fff; border: 1px solid #30363d; }
+    .ghost:hover { background: #30363d; }
+    .status { margin-top: 16px; font-size: 12px; color: #7d8590; }
+    .online { color: #3fb950; }
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <div class="glyph" aria-hidden="true">📡</div>
+    <h1>Vous êtes hors connexion</h1>
+    <p>Cette ressource n'est pas disponible dans le cache. Vérifiez votre connexion Internet puis réessayez, ou revenez à la liste des projets déjà mise en cache.</p>
+    <div class="row">
+      <button class="primary" type="button" onclick="location.reload()">↻ Réessayer</button>
+      <a class="ghost" href="/#projets">← Voir les projets</a>
+    </div>
+    <p class="status" id="status">Statut : <span id="net">vérification…</span></p>
+  </main>
+  <script>
+    const netEl = document.getElementById('net');
+    const update = () => {
+      const online = navigator.onLine;
+      netEl.textContent = online ? 'en ligne' : 'hors connexion';
+      netEl.className = online ? 'online' : '';
+    };
+    update();
+    window.addEventListener('online', update);
+    window.addEventListener('offline', update);
+  </script>
+</body>
+</html>
