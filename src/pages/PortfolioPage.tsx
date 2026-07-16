@@ -736,7 +736,13 @@ export default function PortfolioPage() {
                         </span>
 
                         <div className="flex items-start gap-3 pr-16">
-                          <span className="text-2xl" aria-hidden="true">{p.emoji}</span>
+                          <span
+                            className="grid h-10 w-10 shrink-0 place-items-center rounded-xl ring-1 ring-[#30363d]"
+                            style={{ background: `${p.iconColor}22`, color: p.iconColor }}
+                            aria-hidden="true"
+                          >
+                            <p.Icon className="h-5 w-5" />
+                          </span>
                           <div className="min-w-0 flex-1">
                             <p className="truncate font-semibold text-white group-hover:text-[#58a6ff]">{p.title}</p>
                             <p className="mt-0.5 font-mono text-[10px] text-[#7d8590]">{p.year}</p>
