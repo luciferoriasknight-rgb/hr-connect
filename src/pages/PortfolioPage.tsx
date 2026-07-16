@@ -82,13 +82,6 @@ const skillGroups = [
   ]},
 ] as const;
 
-const coreSkills = [
-  { label: "Développement Front-End", value: 92, color: "#61DAFB" },
-  { label: "Développement Back-End", value: 85, color: "#3C873A" },
-  { label: "Mobile (React Native / Ionic)", value: 78, color: "#38BDF8" },
-  { label: "UI / UX Design", value: 74, color: "#F24E1E" },
-  { label: "DevOps & Cloud", value: 65, color: "#2496ED" },
-];
 
 type TimelineKind = "work" | "edu" | "project" | "award";
 const timeline: {
