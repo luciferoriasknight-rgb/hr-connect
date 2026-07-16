@@ -602,8 +602,8 @@ export default function PortfolioPage() {
             {/* TIMELINE — mobile vertical chrono / desktop zig-zag */}
             <Section id="parcours" icon={FiTrendingUp} title="Mon parcours" kicker="Timeline">
               <div className="relative">
-                <div className="absolute left-4 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#7ee787] via-[#58a6ff] to-[#e3b341] md:left-1/2 md:-translate-x-1/2" aria-hidden="true" />
-                <ol className="space-y-6 md:space-y-8">
+                <div className="absolute left-5 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#7ee787] via-[#58a6ff] to-[#e3b341] md:left-1/2 md:-translate-x-1/2" aria-hidden="true" />
+                <ol className="space-y-8 md:space-y-12">
                   {timeline.map((t, i) => {
                     const rightSide = i % 2 === 1;
                     return (
@@ -613,14 +613,14 @@ export default function PortfolioPage() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.08, duration: 0.45 }}
-                        className={`relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-10 ${rightSide ? "md:[&>div]:col-start-2" : ""}`}
+                        className={`relative pl-20 md:pl-0 md:grid md:grid-cols-2 md:gap-20 ${rightSide ? "md:[&>div]:col-start-2" : ""}`}
                       >
                         <span
-                          className="absolute left-0 top-2 grid h-9 w-9 place-items-center rounded-full ring-4 ring-[#0d1117] md:left-1/2 md:top-4 md:h-11 md:w-11 md:-translate-x-1/2"
+                          className="absolute left-0 top-2 grid h-11 w-11 place-items-center rounded-full ring-4 ring-[#0d1117] md:left-1/2 md:top-4 md:h-12 md:w-12 md:-translate-x-1/2"
                           style={{ background: `linear-gradient(135deg, ${t.color}, ${t.color}55)` }}
                           aria-hidden="true"
                         >
-                          <t.Icon className="h-4 w-4 text-white md:h-5 md:w-5" />
+                          <t.Icon className="h-5 w-5 text-white" />
                         </span>
 
                         <div
