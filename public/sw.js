@@ -1,8 +1,8 @@
 /* Lord-Coding portfolio — service worker (offline shell + asset cache) */
-const VERSION = "v1";
+const VERSION = "v2";
 const APP_CACHE = `lord-coding-app-${VERSION}`;
 const RUNTIME_CACHE = `lord-coding-runtime-${VERSION}`;
-const CORE_ASSETS = ["/", "/manifest.webmanifest", "/favicon.ico", "/cv-lord.pdf"];
+const CORE_ASSETS = ["/", "/offline.html", "/manifest.webmanifest", "/favicon.ico", "/cv-lord.pdf"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -32,7 +32,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  // HTML navigations — network-first, fallback to cached shell
+  // HTML navigations — network-first, fallback to cached shell, then offline page
   if (req.mode === "navigate") {
     event.respondWith((async () => {
       try {
@@ -42,13 +42,18 @@ self.addEventListener("fetch", (event) => {
         return fresh;
       } catch {
         const cache = await caches.open(APP_CACHE);
-        return (await cache.match(req)) || (await cache.match("/")) || Response.error();
+        return (
+          (await cache.match(req)) ||
+          (await cache.match("/")) ||
+          (await cache.match("/offline.html")) ||
+          Response.error()
+        );
       }
     })());
     return;
   }
 
-  // Static assets — cache-first with runtime population
+  // Static assets — cache-first with runtime population, offline fallback for images
   if (/\.(?:js|css|woff2?|ttf|png|jpg|jpeg|svg|webp|ico|json|pdf)$/.test(url.pathname)) {
     event.respondWith((async () => {
       const cached = await caches.match(req);
@@ -61,7 +66,11 @@ self.addEventListener("fetch", (event) => {
         }
         return res;
       } catch {
-        return cached || Response.error();
+        if (cached) return cached;
+        // Fallback offline page for missing resource types the browser might render
+        const cache = await caches.open(APP_CACHE);
+        const fallback = await cache.match("/offline.html");
+        return fallback || Response.error();
       }
     })());
   }
