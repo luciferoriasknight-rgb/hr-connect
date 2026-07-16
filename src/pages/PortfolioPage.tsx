@@ -507,8 +507,9 @@ export default function PortfolioPage() {
                       $ whoami — <span className="not-italic text-[#7ee787]">Lord-sama ▌</span>
                     </p>
                     <p className="mt-3 text-[14px] text-[#c9d1d9] sm:text-[15px]">
-                      Développeur fullstack diplômé en Licence Informatique (Génie-Logiciel), je conçois des applications
-                      web et mobiles modernes — de l'interface à l'API. Curieux, rigoureux et obsédé par l'UX. ✨
+                      Je conçois et développe des produits web & mobiles utiles au quotidien : interfaces soignées,
+                      code lisible, performance qui suit. Ma boussole : livrer vite <em>et</em> bien, en gardant l'UX
+                      au centre.
                     </p>
                     <div className="mt-5 flex flex-wrap justify-center gap-2 md:justify-start">
                       <a href="#projets" className="inline-flex items-center gap-1.5 rounded-md bg-[#1f6feb] px-4 py-2 text-sm font-semibold text-white hover:bg-[#388bfd] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#58a6ff]">
@@ -519,9 +520,11 @@ export default function PortfolioPage() {
                       </a>
                     </div>
                   </div>
-                  <div className="mx-auto w-40 sm:w-56 md:w-[260px] lg:w-[280px]" aria-hidden="true">
-                    <Player autoplay loop src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" style={{ height: "100%", width: "100%" }} />
-                  </div>
+                  <LazyLottie
+                    className="mx-auto aspect-square w-40 sm:w-56 md:w-[260px] lg:w-[280px]"
+                    src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json"
+                    ariaLabel="Animation de développement"
+                  />
                 </motion.div>
 
                 <Section id="about" icon={HiOutlineSparkles} title="À propos" kicker="Qui suis-je">
