@@ -24,16 +24,43 @@ export default function Lightbox({
   // Save focus, move it into the dialog, restore on close.
   useEffect(() => {
     previouslyFocusedRef.current = document.activeElement as HTMLElement | null;
-    // Delay to ensure element is mounted.
     const t = window.setTimeout(() => closeBtnRef.current?.focus(), 0);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+
+    // Robust background scroll lock (works on iOS Safari too).
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const prev = {
+      overflow: body.style.overflow,
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+      paddingRight: body.style.paddingRight,
+    };
+    // Compensate for scrollbar disappearance to avoid layout shift.
+    const scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    if (scrollbarW > 0) body.style.paddingRight = `${scrollbarW}px`;
+
     return () => {
       window.clearTimeout(t);
-      document.body.style.overflow = prevOverflow;
+      body.style.overflow = prev.overflow;
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.left = prev.left;
+      body.style.right = prev.right;
+      body.style.width = prev.width;
+      body.style.paddingRight = prev.paddingRight;
+      window.scrollTo(0, scrollY);
+
       const el = previouslyFocusedRef.current;
       if (el && typeof el.focus === "function") {
-        // Restore focus after unmount tick.
         window.setTimeout(() => el.focus(), 0);
       }
     };
