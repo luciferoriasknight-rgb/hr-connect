@@ -362,10 +362,13 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
 
 /* ------------------------------- Page ----------------------------------- */
 
+type SortMode = "relevance" | "date-desc" | "date-asc" | "type";
+
 export default function PortfolioPage() {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [activeTypes, setActiveTypes] = useState<Set<ProjectType>>(new Set());
   const [modalProject, setModalProject] = useState<Project | null>(null);
+  const [sortMode, setSortMode] = useState<SortMode>("relevance");
 
   const counts = useMemo(() => ({
     all: projects.length,
@@ -373,9 +376,18 @@ export default function PortfolioPage() {
     collab: projects.filter((p) => p.type === "collab").length,
   }), []);
 
-  const filteredProjects = useMemo(() =>
-    activeTypes.size === 0 ? projects : projects.filter((p) => activeTypes.has(p.type)),
-  [activeTypes]);
+  const filteredProjects = useMemo(() => {
+    const base = activeTypes.size === 0 ? projects : projects.filter((p) => activeTypes.has(p.type));
+    const arr = [...base];
+    const yearOf = (p: Project) => parseInt(p.year, 10) || 0;
+    switch (sortMode) {
+      case "date-desc": arr.sort((a, b) => yearOf(b) - yearOf(a)); break;
+      case "date-asc":  arr.sort((a, b) => yearOf(a) - yearOf(b)); break;
+      case "type":      arr.sort((a, b) => a.type.localeCompare(b.type) || a.title.localeCompare(b.title)); break;
+      case "relevance": /* keep source order */ break;
+    }
+    return arr;
+  }, [activeTypes, sortMode]);
 
   const visibleProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 4);
 
