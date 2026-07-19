@@ -502,9 +502,9 @@ export default function PortfolioPage() {
 
               <div className="p-4 sm:p-6 md:p-10">
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-                  className="mb-8 grid items-center gap-6 md:grid-cols-[1fr_auto]">
-                  <div className="min-w-0 text-center md:text-left">
-                    <h2 className="mb-3 flex flex-wrap items-center justify-center gap-2 text-2xl font-bold text-white sm:text-3xl md:justify-start md:text-4xl">
+                  className="mb-8 grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
+                  <div className="min-w-0 text-center lg:text-left">
+                    <h2 className="mb-3 flex flex-wrap items-center justify-center gap-2 text-2xl font-bold text-white sm:text-3xl lg:justify-start lg:text-4xl">
                       <motion.span animate={{ rotate: [0, 20, -10, 20, 0] }} transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }} aria-hidden="true">👋</motion.span>
                       Salut, je suis Victoria
                     </h2>
@@ -516,7 +516,7 @@ export default function PortfolioPage() {
                       code lisible, performance qui suit. Ma boussole : livrer vite <em>et</em> bien, en gardant l'UX
                       au centre.
                     </p>
-                    <div className="mt-5 flex flex-wrap justify-center gap-2 md:justify-start">
+                    <div className="mt-5 flex flex-wrap justify-center gap-2 lg:justify-start">
                       <a href="#projets" className="inline-flex items-center gap-1.5 rounded-md bg-[#1f6feb] px-4 py-2 text-sm font-semibold text-white hover:bg-[#388bfd] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#58a6ff]">
                         <IoRocketOutline className="h-4 w-4" /> Voir mes projets
                       </a>
@@ -526,7 +526,7 @@ export default function PortfolioPage() {
                     </div>
                   </div>
                   <LazyLottie
-                    className="mx-auto aspect-square w-40 sm:w-56 md:w-[260px] lg:w-[280px]"
+                    className="mx-auto aspect-square w-40 shrink-0 sm:w-56 lg:w-[240px] xl:w-[280px]"
                     src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json"
                     ariaLabel="Animation de développement"
                   />
