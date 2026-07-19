@@ -709,6 +709,23 @@ export default function PortfolioPage() {
                   <FiUsersDup className="h-3 w-3" aria-hidden="true" /> Collab
                   <span className="ml-1 rounded-full bg-white/10 px-1.5 py-0.5 text-[10px] font-mono">{counts.collab}</span>
                 </button>
+
+                <div className="ml-auto flex items-center gap-2">
+                  <label htmlFor="project-sort" className="text-xs text-[#7d8590]">
+                    Trier :
+                  </label>
+                  <select
+                    id="project-sort"
+                    value={sortMode}
+                    onChange={(e) => { setSortMode(e.target.value as SortMode); setShowAllProjects(true); }}
+                    className="rounded-md border border-[#30363d] bg-[#161b22] px-2 py-1 text-xs text-[#c9d1d9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1f6feb]"
+                  >
+                    <option value="relevance">Pertinence</option>
+                    <option value="date-desc">Date (récent)</option>
+                    <option value="date-asc">Date (ancien)</option>
+                    <option value="type">Type</option>
+                  </select>
+                </div>
               </div>
 
               <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
